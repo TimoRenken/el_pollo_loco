@@ -1,4 +1,4 @@
-class World{
+class World {
     charakter = new Character();
     enemies = [
         new Chicken(),
@@ -8,28 +8,40 @@ class World{
     clouds = [
         new Cloud()
     ];
+    backgroundObjects = [
+        new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 0, 80)
+    ];
     canvas;
     ctx;
 
-    constructor(canvas){
-       this.ctx = canvas.getContext('2d');
-       this.canvas = canvas;
-       this.draw();
+    constructor(canvas) {
+        this.ctx = canvas.getContext('2d');
+        this.canvas = canvas;
+        this.draw();
     }
 
-    draw(){
+    draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.drawImage(this.charakter.img, this.charakter.x, this.charakter.y, this.charakter.width , this.charakter.heigt)
-        this.enemies.forEach(enemy => {
-            this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.width , enemy.heigt)
-        })
-        this.clouds.forEach(cloud => {
-            this.ctx.drawImage(cloud.img, cloud.x, cloud.y, cloud.width , cloud.heigt)
-        })
 
+        this.addToMap(this.charakter);
+        this.addObjectsToMap(this.enemies);
+        this.addObjectsToMap(this.clouds);
+        this.addObjectsToMap(this.backgroundObjects);
+
+        // repeats draw()
         let self = this;
-        requestAnimationFrame(function(){
+        requestAnimationFrame(function () {
             self.draw();
-        })
+        });
+    }
+
+    addObjectsToMap(objects) {
+        objects.forEach(obj => {
+            this.addToMap(obj);
+        });
+    }
+
+    addToMap(mo) {
+        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.heigt);
     }
 }
