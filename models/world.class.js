@@ -5,6 +5,9 @@ class World{
         new Chicken(),
         new Chicken(),
     ];
+    clouds = [
+        new Cloud()
+    ];
     canvas;
     ctx;
 
@@ -19,6 +22,9 @@ class World{
         this.ctx.drawImage(this.charakter.img, this.charakter.x, this.charakter.y, this.charakter.width , this.charakter.heigt)
         this.enemies.forEach(enemy => {
             this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.width , enemy.heigt)
+        })
+        this.clouds.forEach(cloud => {
+            this.ctx.drawImage(cloud.img, cloud.x, cloud.y, cloud.width , cloud.heigt)
         })
 
         let self = this;
