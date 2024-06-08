@@ -23,10 +23,10 @@ class World {
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.addToMap(this.charakter);
-        this.addObjectsToMap(this.enemies);
-        this.addObjectsToMap(this.clouds);
         this.addObjectsToMap(this.backgroundObjects);
+        this.addObjectsToMap(this.enemies);
+        this.addToMap(this.charakter);
+        this.addObjectsToMap(this.clouds);
 
         // repeats draw()
         let self = this;
