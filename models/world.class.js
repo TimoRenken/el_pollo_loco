@@ -23,7 +23,13 @@ class World {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.draw();
+        this.setWorld();
     }
+
+    setWorld(){
+        this.charakter.world = this;
+    }
+
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
