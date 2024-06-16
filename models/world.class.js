@@ -52,6 +52,16 @@ class World {
     }
 
     addToMap(mo) {
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.heigt);
+        if(mo.otherDirection){ // if is otherDirection is true; {}
+            this.ctx.save();  // saves the current state of the canvas context.
+            this.ctx.translate(mo.width, 0); // Shifts the origin of the canvas's coordinate system to the right by the width of the object. This is necessary to mirror the image correctly.
+            this.ctx.scale(-1, 1); // Scales the canvas coordinate system horizontally by a factor of -1. This causes all subsequent drawings to be mirrored horizontally.
+            mo.x = mo.x * -1; // Multiplies the x-coordinate of the object by -1. This is necessary because the x-coordinate must be correctly positioned around the new origin after mirroring.
+        }
+        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        if(mo.otherDirection){ // This condition checks again if otherDirection is true to undo subsequent changes.
+            mo.x = mo.x * -1;
+            this.ctx.restore();
+        }
     }
 }
