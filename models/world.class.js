@@ -17,6 +17,7 @@ class World {
     canvas;
     ctx;
     keyboard;
+    camera_x = 0;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -26,17 +27,19 @@ class World {
         this.setWorld();
     }
 
-    setWorld(){
+    setWorld() {
         this.charakter.world = this;
     }
 
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.backgroundObjects);
         this.addObjectsToMap(this.enemies);
         this.addToMap(this.charakter);
         this.addObjectsToMap(this.clouds);
+        this.ctx.translate(-this.camera_x, 0);
 
         // repeats draw()
         let self = this;
@@ -52,14 +55,15 @@ class World {
     }
 
     addToMap(mo) {
-        if(mo.otherDirection){ // if is otherDirection is true; {}
-            this.ctx.save();  // saves the current state of the canvas context.
-            this.ctx.translate(mo.width, 0); // Shifts the origin of the canvas's coordinate system to the right by the width of the object. This is necessary to mirror the image correctly.
-            this.ctx.scale(-1, 1); // Scales the canvas coordinate system horizontally by a factor of -1. This causes all subsequent drawings to be mirrored horizontally.
-            mo.x = mo.x * -1; // Multiplies the x-coordinate of the object by -1. This is necessary because the x-coordinate must be correctly positioned around the new origin after mirroring.
+        if (mo.otherDirection) { 
+            this.ctx.save();  
+            this.ctx.translate(mo.width, 0); 
+            this.ctx.scale(-1, 1); 
+            mo.x = mo.x * -1; 
         }
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-        if(mo.otherDirection){ // This condition checks again if otherDirection is true to undo subsequent changes.
+
+        if (mo.otherDirection) { 
             mo.x = mo.x * -1;
             this.ctx.restore();
         }
