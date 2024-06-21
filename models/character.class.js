@@ -4,7 +4,7 @@ class Character extends MovableObject {
     y = 180
     speed = 15; // 5 was good - set up just for testing
     IMAGES_WALKING = [
-        'img/2_character_pepe/2_walk/W-21.png', //path
+        'img/2_character_pepe/2_walk/W-21.png', 
         'img/2_character_pepe/2_walk/W-22.png',
         'img/2_character_pepe/2_walk/W-23.png',
         'img/2_character_pepe/2_walk/W-24.png',
