@@ -8,6 +8,22 @@ class MovableObject {
     currentImage = 0;
     speed = 0.15;
     otherDirection = false;
+    speedY = 0
+    accerleration = 2.5;
+
+    applyGravity(){
+        setInterval(() => {
+            if(this.isAboveGround()){
+            this.y -= this.speedY;
+            this.speedY -= this.accerleration;
+            }
+        }, 1000 / 30);
+    }
+
+    isAboveGround(){
+        return this.y < 180
+    }
+    
 
     loadImage(path){           // loadImage('img/test.png')
         this.img= new Image(); // this.img = document.getElementById('image') <img id="image" src="">
@@ -42,4 +58,6 @@ class MovableObject {
             this.x -= this.speed;
         }, 1000 / 60);
     }
+
+
 }
