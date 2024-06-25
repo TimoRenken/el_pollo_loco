@@ -10,6 +10,7 @@ class MovableObject {
     otherDirection = false;
     speedY = 0
     accerleration = 2.5;
+    HP = 100;
 
     applyGravity() {
         setInterval(() => {
@@ -54,25 +55,24 @@ class MovableObject {
             ctx.rect(this.x, this.y, this.width, this.height);
             ctx.stroke();
         }
-
     }
 
     // // character.isColliding(chicken)                                        SOLL DIE BESSERE FUNKTION SEIN, FUNKTIONIERT ABER NICHT OHNE OFFSET
- // Bessere Formel zur Kollisionsberechnung (Genauer)
-// isColliding (obj) {
-//     return  (this.X + this.width) >= obj.X && this.X <= (obj.X + obj.width) && 
-//             (this.Y + this.offsetY + this.height) >= obj.Y &&
-//             (this.Y + this.offsetY) <= (obj.Y + obj.height) && 
-//             obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
+    // Bessere Formel zur Kollisionsberechnung (Genauer)
+    // isColliding (obj) {
+    //     return  (this.X + this.width) >= obj.X && this.X <= (obj.X + obj.width) && 
+    //             (this.Y + this.offsetY + this.height) >= obj.Y &&
+    //             (this.Y + this.offsetY) <= (obj.Y + obj.height) && 
+    //             obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
 
-// }
+    // }
 
-       // character.isColliding(chicken)
-       isColliding(mo) {
+    // character.isColliding(chicken)
+    isColliding(mo) {
         return this.x + this.width > mo.x &&
-        this.y + this.height > mo.y &&
-        this.x < mo.x &&
-        this.y < mo.y + mo.height
+            this.y + this.height > mo.y &&
+            this.x < mo.x &&
+            this.y < mo.y + mo.height;
     }
 
     playAnimation(images) {
@@ -93,6 +93,17 @@ class MovableObject {
     jump() {
         this.speedY = 30;
     };
+
+    hit() {
+        this.HP -= 5;
+        if (this.HP < 0) {
+            this.HP = 0;
+        }
+    }
+
+    isDead() {
+        return this.HP <= 0;
+    }
 
 
 }

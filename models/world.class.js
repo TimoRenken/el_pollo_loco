@@ -69,9 +69,12 @@ class World {
         setInterval(()=> {
             this.level.enemies.forEach((enemy) =>{
                 if(this.charakter.isColliding(enemy) ){
-                    console.log('Collision with Character', enemy)
+                    this.charakter.hit();
+                    console.log('Collision with Character, HP is', this.charakter.HP)
                 }
             });
-        }, 1000)
+        }, 200)
     }
+
+   
 }
