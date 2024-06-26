@@ -76,7 +76,7 @@ class MovableObject {
     }
 
     playAnimation(images) {
-        let i = this.currentImage % this.IMAGES_WALKING.length; // let i = 7 % 6; => 1, rest 1
+        let i = this.currentImage % images.length; // let i = 7 % 6; => 1, rest 1
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
@@ -98,7 +98,15 @@ class MovableObject {
         this.HP -= 5;
         if (this.HP < 0) {
             this.HP = 0;
+        } else {
+            this.lastHit = new Date().getTime(); 
         }
+    }
+
+    isHurt(){
+        let timepassed = new Date().getTime() - this.lastHit
+        timepassed = timepassed / 1000; // Difference in s
+        return timepassed < 1;
     }
 
     isDead() {
