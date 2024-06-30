@@ -1,11 +1,5 @@
-class MovableObject {
-    x = 120
-    y = 280
-    height = 150;
-    width = 100;
-    img;
-    imageCache = {};
-    currentImage = 0;
+class MovableObject extends DrawableObject {
+
     speed = 0.15;
     otherDirection = false;
     speedY = 0
@@ -23,16 +17,6 @@ class MovableObject {
 
     isAboveGround() {
         return this.y < 180
-    }
-
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken) {
-            ctx.beginPath();
-            ctx.lineWidth = '5';
-            ctx.strokeStyle = 'blue';
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        }
     }
 
     // // character.isColliding(chicken)                                        SOLL DIE BESSERE FUNKTION SEIN, FUNKTIONIERT ABER NICHT OHNE OFFSET
