@@ -77,5 +77,4 @@ class MovableObject extends DrawableObject {
         return this.HP <= 0;
     }
     
-
 }
