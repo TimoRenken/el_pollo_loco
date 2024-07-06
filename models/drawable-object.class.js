@@ -7,7 +7,6 @@ class DrawableObject{
     imageCache = {};
     currentImage = 0;
 
-
     loadImage(path) {           // loadImage('img/test.png')
         this.img = new Image(); // this.img = document.getElementById('image') <img id="image" src="">
         this.img.src = path;

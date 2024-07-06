@@ -16,7 +16,10 @@ class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
-        return this.y < 180
+        if (this instanceof ThrowableObject) { // ThrowableObject should always fall.
+            return true;
+        } else
+            return this.y < 180;
     }
 
     // // character.isColliding(chicken)                                        SOLL DIE BESSERE FUNKTION SEIN, FUNKTIONIERT ABER NICHT OHNE OFFSET
@@ -26,7 +29,6 @@ class MovableObject extends DrawableObject {
     //             (this.Y + this.offsetY + this.height) >= obj.Y &&
     //             (this.Y + this.offsetY) <= (obj.Y + obj.height) && 
     //             obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
-
     // }
 
     // character.isColliding(chicken)
@@ -61,11 +63,11 @@ class MovableObject extends DrawableObject {
         if (this.HP < 0) {
             this.HP = 0;
         } else {
-            this.lastHit = new Date().getTime(); 
+            this.lastHit = new Date().getTime();
         }
     }
 
-    isHurt(){
+    isHurt() {
         let timepassed = new Date().getTime() - this.lastHit
         timepassed = timepassed / 1000; // Difference in s
         return timepassed < 1;
