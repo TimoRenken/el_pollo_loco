@@ -9,7 +9,8 @@ class World {
     coinBar = new StatusBarCoins();
     bottleBar = new StatusBarBottles();
     throwableObjects = [];
-
+    collectableObject = new CollectableObjects(); 
+    
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -83,6 +84,7 @@ class World {
         setInterval(()=> {
             this.checkCollisions();
             this.checkThrowObjects();
+            this.checkCollection();
         }, 200)
     }
 
@@ -101,4 +103,17 @@ class World {
             this.throwableObjects.push(bottle);
         }
     }
+/**
+ * This function checks whether a coin has been collected and changes the statusbar.
+ */
+    checkCollection(){
+        this.level.coins.forEach((coin) =>{
+            if(this.charakter.isColliding(coin)){
+                this.level.coins.splice(this.level.coins.indexOf(coin), 1) // reduce the coins array by 1.
+                this.collectableObject.collect(); // changes a variable
+                this.coinBar.setPercentage(this.collectableObject.collectedCoins); // changes the imagepath of the statusbar.
+            }
+        });
+    }
+
 }

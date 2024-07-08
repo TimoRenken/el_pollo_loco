@@ -29,7 +29,7 @@ class StatusBarHealth extends DrawableObject {
 
 /**
  * 
- * @returns number of array image path
+ * @returns number of array image index
  */
     resolveImageIndex() {
         if (this.percentage == 100) {
