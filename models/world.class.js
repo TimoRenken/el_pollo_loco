@@ -41,6 +41,7 @@ class World {
         this.addToMap(this.charakter);
         this.addObjectsToMap(this.throwableObjects)
         this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.bottles);
         this.ctx.translate(-this.camera_x, 0);
 
         // repeats draw()
@@ -112,7 +113,7 @@ class World {
                 this.level.coins.splice(this.level.coins.indexOf(coin), 1) // reduce the coins array by 1.
                 this.collectableObject.collect(); // changes a variable
                 this.coinBar.setPercentage(this.collectableObject.collectedCoins); // changes the imagepath of the statusbar.
-            }
+            } 
         });
     }
 

@@ -8,7 +8,9 @@ class ThrowableObject extends MovableObject{
         this.width = 70;
         this.throw();
     }
-
+/**
+ * changes coordinates to animate a throwing bottle
+ */
     throw(){
         this.speedY = 30;
         this.applyGravity();
