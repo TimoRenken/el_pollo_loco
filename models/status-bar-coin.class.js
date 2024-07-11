@@ -13,7 +13,7 @@ class StatusBarCoins extends DrawableObject {
     constructor() {
         super().loadImage('img/7_statusbars/1_statusbar/1_statusbar_coin/green/0.png');
         this.loadImages(this.IMAGES);
-        this.setPercentage(0);
+        this.setPercentage(this.percentage);
         this.x = 40;
         this.y = 100 ;
         this.width = 200;
@@ -21,8 +21,7 @@ class StatusBarCoins extends DrawableObject {
     }
 
     // setPercentage(x)
-    setPercentage(percentage) {
-        this.percentage = percentage // => 0 ...5
+    setPercentage() {
         let path = this.IMAGES[this.resolveImageIndex()]; // returns imagepath number "0-5"  by percentage
         this.img = this.imageCache[path];
     }

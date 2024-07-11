@@ -3,6 +3,9 @@ class Character extends MovableObject {
     height = 250;
     y = 180;
     speed = 5;
+    collectedCoins = 0;
+    collectedBottles = 0;
+    
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -42,6 +45,8 @@ class Character extends MovableObject {
 
     world;
     walking_sound = new Audio('audio/walking.mp3')
+    deadAnimationPlayed = false;
+
 
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
@@ -73,8 +78,9 @@ class Character extends MovableObject {
         }, 1000 / 60);
 
         setInterval(() => {
-            if (this.isDead()) {
+            if (this.isDead() && !this.deadAnimationPlayed) {  // 
                 this.playAnimation(this.IMAGES_DEAD);
+                this.deadAnimationPlayed = true;
             } else if (this.isHurt()){
                 this.playAnimation(this.IMAGES_HURT);
             } 

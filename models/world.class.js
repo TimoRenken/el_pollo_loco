@@ -1,5 +1,5 @@
 class World {
-    charakter = new Character();
+    character = new Character();
     level = level1
     canvas;
     ctx;
@@ -21,7 +21,7 @@ class World {
     }
 
     setWorld() {
-        this.charakter.world = this;
+        this.character.world = this;
     }
 
     draw() {
@@ -38,10 +38,10 @@ class World {
         this.addToMap(this.bottleBar);
         this.ctx.translate(this.camera_x, 0); // Forwards
        
-        this.addToMap(this.charakter);
+        this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects)
-        this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.level.bottles);
+        this.addObjectsToMap(this.level.collectableObjects);
+
         this.ctx.translate(-this.camera_x, 0);
 
         // repeats draw()
@@ -91,30 +91,52 @@ class World {
 
     checkCollisions(){
         this.level.enemies.forEach((enemy) =>{
-            if(this.charakter.isColliding(enemy) ){
-                this.charakter.hit();
-                this.healthBar.setPercentage(this.charakter.HP);
+            if(this.character.isColliding(enemy) ){
+                this.character.hit();
+                this.healthBar.setPercentage(this.character.HP);
             }
         });
     }
 
     checkThrowObjects(){
-        if(this.keyboard.D){
-            let bottle = new ThrowableObject(this.charakter.x + 100, this.charakter.y + 100);
+        if(this.keyboard.D && this.character.collectedBottles > 0){
+            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
+            this.character.collectedBottles--;
+            this.bottleBar.percentage -= 20;
+            this.bottleBar.setPercentage(this.character.collectedBottles);
         }
     }
+
 /**
  * This function checks whether a coin has been collected and changes the statusbar.
  */
     checkCollection(){
-        this.level.coins.forEach((coin) =>{
-            if(this.charakter.isColliding(coin)){
-                this.level.coins.splice(this.level.coins.indexOf(coin), 1) // reduce the coins array by 1.
-                this.collectableObject.collect(); // changes a variable
-                this.coinBar.setPercentage(this.collectableObject.collectedCoins); // changes the imagepath of the statusbar.
+        this.level.collectableObjects.forEach((obj) =>{
+            if(this.character.isColliding(obj)){
+                this.collectItem(obj);
+    
             } 
         });
     }
+
+    /**
+     * This function is used to collect a bottle or coin an deleting it in level
+     * @param {*} obj 
+     */
+    collectItem(obj){
+        if (obj instanceof Coin){
+            this.character.collectedCoins ++; // increase collectedCoins by 1 after collecting a coin
+            this.coinBar.percentage += 10;
+            this.coinBar.setPercentage(this.character.collectedCoins); // set imagepath by collectedCoins 
+            this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(obj), 1) // Remove the coin from array
+        } else if (obj instanceof Bottle){
+            this.character.collectedBottles++; // increase collectedBottles by 1 after collecting a bottle
+            this.bottleBar.percentage += 20;
+            this.bottleBar.setPercentage(this.character.collectedBottles);
+            this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(obj), 1)
+        }
+    }
+
 
 }
