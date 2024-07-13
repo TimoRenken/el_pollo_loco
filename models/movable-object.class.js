@@ -19,7 +19,7 @@ class MovableObject extends DrawableObject {
         if (this instanceof ThrowableObject) { // ThrowableObject should always fall.
             return true;
         } else
-            return this.y < 180;
+            return this.y < 280;
     }
 
     // // character.isColliding(chicken)                                        SOLL DIE BESSERE FUNKTION SEIN, FUNKTIONIERT ABER NICHT OHNE OFFSET
