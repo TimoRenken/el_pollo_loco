@@ -22,22 +22,19 @@ class MovableObject extends DrawableObject {
             return this.y < 280;
     }
 
-    // // character.isColliding(chicken)                                        SOLL DIE BESSERE FUNKTION SEIN, FUNKTIONIERT ABER NICHT OHNE OFFSET
-    // Bessere Formel zur Kollisionsberechnung (Genauer)
-    // isColliding (obj) {
-    //     return  (this.X + this.width) >= obj.X && this.X <= (obj.X + obj.width) && 
-    //             (this.Y + this.offsetY + this.height) >= obj.Y &&
-    //             (this.Y + this.offsetY) <= (obj.Y + obj.height) && 
-    //             obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
-    // }
+    isColliding (mo) { // mo = movableObject
+        return this.x + this.width - this.offset.right > mo.x + mo.offset.left && // Right -> Left
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && // Top -> Bottom
+            this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&    // Left -> Right
+            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;     // Bottm -> Top
 
-    // character.isColliding(chicken)
-    isColliding(mo) {
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x &&
-            this.y < mo.y + mo.height;
-    }
+}
+    // isColliding(mo) { // mo = movableObject
+    //     return this.x + this.width > mo.x &&
+    //         this.y + this.height > mo.y &&
+    //         this.x < mo.x &&
+    //         this.y < mo.y + mo.height;
+    // }
 
     playAnimation(images) {
         let i = this.currentImage % images.length; // let i = 7 % 6; => 1, rest 1

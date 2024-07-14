@@ -6,6 +6,13 @@ class Character extends MovableObject {
     collectedCoins = 0;
     collectedBottles = 0;
     
+    offset = {
+        top: 50,
+        right: 25,
+        bottom: 5,
+        left: 20
+    };
+
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',

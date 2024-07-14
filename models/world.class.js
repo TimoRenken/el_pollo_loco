@@ -108,9 +108,9 @@ class World {
         }
     }
 
-/**
- * This function checks whether a coin has been collected and changes the statusbar.
- */
+    /**
+    * This function checks whether a coin has been collected and changes the statusbar.
+    */
     checkCollection(){
         this.level.collectableObjects.forEach((obj) =>{
             if(this.character.isColliding(obj)){
