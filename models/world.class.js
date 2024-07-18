@@ -9,8 +9,8 @@ class World {
     coinBar = new StatusBarCoins();
     bottleBar = new StatusBarBottles();
     throwableObjects = [];
-    collectableObject = new CollectableObjects(); 
-    
+    collectableObject = new CollectableObjects();
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -30,14 +30,14 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
-        
+
         // space for fixed Objects
         this.ctx.translate(-this.camera_x, 0); // Back
         this.addToMap(this.healthBar);
         this.addToMap(this.coinBar);
         this.addToMap(this.bottleBar);
         this.ctx.translate(this.camera_x, 0); // Forwards
-       
+
         this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects)
         this.addObjectsToMap(this.level.collectableObjects);
@@ -59,47 +59,63 @@ class World {
 
     addToMap(mo) {
         if (mo.otherDirection) {
-         this.flipImage(mo);
+            this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);       draws a reactangle for collision
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
     }
 
-    flipImage(mo){
+    flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
         this.ctx.scale(-1, 1);
         mo.x = mo.x * -1;
     }
 
-    flipImageBack(mo){
+    flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
 
-    run(){
-        setInterval(()=> {
+    run() {
+        setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkCollection();
-        }, 200)
+        }, 10)
     }
 
-    checkCollisions(){
-        this.level.enemies.forEach((enemy) =>{
-            if(this.character.isColliding(enemy) ){
+    checkCollisions() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy) && this.character.isAboveGround()) { // checks if character is jumping on an object
+                console.log('is colliding from above');
+                this.damageToEnemy(enemy);
+            } else if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.HP);
             }
         });
     }
 
-    checkThrowObjects(){
-        if(this.keyboard.D && this.character.collectedBottles > 0){
+    damageToEnemy(enemy){
+        enemy.HP -=10;
+        if (enemy.HP <0){
+            enemy.HP = 0;
+        } else {
+            enemy.lastHit = new Date().getTime();
+        }
+    }
+
+    isAboveEnemy(character, enemy){ // char 425 chicken 430
+        return character.y + character.height < enemy.y + enemy.height;
+    }
+
+    checkThrowObjects() {
+        if (this.keyboard.D && this.character.collectedBottles > 0) {
             let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 50);
             this.throwableObjects.push(bottle);
             this.character.collectedBottles--;
@@ -109,14 +125,13 @@ class World {
     }
 
     /**
-    * This function checks whether a coin has been collected and changes the statusbar.
+    * This function checks wheather the character is colliding an object
     */
-    checkCollection(){
-        this.level.collectableObjects.forEach((obj) =>{
-            if(this.character.isColliding(obj)){
+    checkCollection() {
+        this.level.collectableObjects.forEach((obj) => {
+            if (this.character.isColliding(obj)) {
                 this.collectItem(obj);
-    
-            } 
+            }
         });
     }
 
@@ -124,13 +139,13 @@ class World {
      * This function is used to collect a bottle or coin an deleting it in level
      * @param {*} obj 
      */
-    collectItem(obj){
-        if (obj instanceof Coin){
-            this.character.collectedCoins ++; // increase collectedCoins by 1 after collecting a coin
+    collectItem(obj) {
+        if (obj instanceof Coin) {
+            this.character.collectedCoins++; // increase collectedCoins by 1 after collecting a coin
             this.coinBar.percentage += 10;
             this.coinBar.setPercentage(this.character.collectedCoins); // set imagepath by collectedCoins 
             this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(obj), 1) // Remove the coin from array
-        } else if (obj instanceof Bottle){
+        } else if (obj instanceof Bottle) {
             this.character.collectedBottles++; // increase collectedBottles by 1 after collecting a bottle
             this.bottleBar.percentage += 20;
             this.bottleBar.setPercentage(this.character.collectedBottles);

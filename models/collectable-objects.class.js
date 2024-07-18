@@ -9,7 +9,6 @@ collectedBottles = 0;
     }
 
     collect() {
-        
         this.collectedCoins += 10;
         if (this.collectedCoins >100) {
             this.collectedCoins =100;
