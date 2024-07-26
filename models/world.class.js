@@ -41,7 +41,6 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects)
         this.addObjectsToMap(this.level.collectableObjects);
-
         this.ctx.translate(-this.camera_x, 0);
 
         // repeats draw()
@@ -84,34 +83,34 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisions();
-            this.checkThrowObjects();
             this.checkCollection();
         }, 10)
+        setInterval(() =>{
+            this.checkThrowObjects();
+        }, 150)
     }
 
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && this.character.isAboveGround()) { // checks if character is jumping on an object
+            if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY < 0) { // checks if character is jumping on an object
                 console.log('is colliding from above');
-                this.damageToEnemy(enemy);
-            } else if (this.character.isColliding(enemy)) {
+                this.killEnemy(enemy);
+                this.character.speedY = 20;
+             } else if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.HP);
             }
         });
     }
 
-    damageToEnemy(enemy){
-        enemy.HP -=10;
-        if (enemy.HP <0){
-            enemy.HP = 0;
-        } else {
-            enemy.lastHit = new Date().getTime();
-        }
-    }
-
-    isAboveEnemy(character, enemy){ // char 425 chicken 430
-        return character.y + character.height < enemy.y + enemy.height;
+    killEnemy(enemy){
+        this.character.invincible = true;
+        enemy.HP = 0;
+        enemy.lastHit = new Date().getTime();
+        setTimeout (()=>{
+            this.level.enemies.splice(this.level.enemies.indexOf(enemy),1)
+            this.character.invincible = false;
+        }, 400)
     }
 
     checkThrowObjects() {
@@ -125,7 +124,7 @@ class World {
     }
 
     /**
-    * This function checks wheather the character is colliding an object
+    * This function checks if the character is colliding an object
     */
     checkCollection() {
         this.level.collectableObjects.forEach((obj) => {

@@ -40,6 +40,7 @@ class Chicken extends MovableObject {
             if (this.isDead()) { // checks if HP is <= 0
                 this.loadImage(this.IMAGE_DEAD);
                 clearInterval(move); // stops chicken walking 
+                
             } else
                 this.playAnimation(this.IMAGES_WALKING);
 

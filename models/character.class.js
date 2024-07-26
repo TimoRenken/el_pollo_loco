@@ -5,7 +5,8 @@ class Character extends MovableObject {
     speed = 5;
     collectedCoins = 0;
     collectedBottles = 0;
-    
+    invincible = false;
+
     offset = {
         top: 50,
         right: 25,

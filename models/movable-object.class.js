@@ -6,6 +6,7 @@ class MovableObject extends DrawableObject {
     accerleration = 2.5;
     HP = 100;
 
+    
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
@@ -49,12 +50,15 @@ class MovableObject extends DrawableObject {
     };
 
     hit() {
-        this.HP -= 5;
+        if(!world.character.invincible){
+            this.HP -= 5;
         if (this.HP < 0) {
             this.HP = 0;
         } else {
             this.lastHit = new Date().getTime();
+        } 
         }
+       
     }
 
     isHurt() {
