@@ -62,7 +62,6 @@ class World {
         }
         mo.draw(this.ctx);
         // mo.drawFrame(this.ctx);       draws a reactangle for collision
-
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
@@ -93,9 +92,8 @@ class World {
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY < 0) { // checks if character is jumping on an object
-                console.log('is colliding from above');
                 this.killEnemy(enemy);
-                this.character.speedY = 20;
+                 this.character.speedY = 20;
              } else if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.HP);
@@ -106,7 +104,6 @@ class World {
     killEnemy(enemy){
         this.character.invincible = true;
         enemy.HP = 0;
-        enemy.lastHit = new Date().getTime();
         setTimeout (()=>{
             this.level.enemies.splice(this.level.enemies.indexOf(enemy),1)
             this.character.invincible = false;
