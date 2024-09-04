@@ -58,7 +58,7 @@ class MovableObject extends DrawableObject {
 
     hit() {
         if (!world.character.invincible) {
-            this.HP -= 5;
+            this.HP -= 20;
             if (this.HP < 0) {
                 this.HP = 0;
             } else {

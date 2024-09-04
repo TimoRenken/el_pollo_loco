@@ -93,10 +93,11 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY < 0) { // checks if character is jumping on an object
                 this.killEnemy(enemy);
-                 this.character.speedY = 20;
-             } else if (this.character.isColliding(enemy)) {
+                this.character.speedY = 20;
+             } else if (this.character.isColliding(enemy) && !this.character.isHurt()) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.HP);
+                console.log(this.character.HP);
             }
         });
     }
