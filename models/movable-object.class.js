@@ -7,6 +7,9 @@ class MovableObject extends DrawableObject {
     HP = 100;
     lastHit = 0;
 
+    /**
+     * This function is used to add gravity to objects.
+     */
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
@@ -18,6 +21,10 @@ class MovableObject extends DrawableObject {
         }, 1000 / 30);
     }
 
+    /**
+     * This function checks whether the object is above the ground
+     * @returns true or false
+     */
     isAboveGround() {
         if (this instanceof ThrowableObject) { // ThrowableObject should always fall.
             return true;

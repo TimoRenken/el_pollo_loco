@@ -97,7 +97,6 @@ class World {
              } else if (this.character.isColliding(enemy) && !this.character.isHurt()) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.HP);
-                console.log(this.character.HP);
             }
         });
     }
