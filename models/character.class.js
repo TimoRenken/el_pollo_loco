@@ -6,6 +6,10 @@ class Character extends MovableObject {
     collectedCoins = 0;
     collectedBottles = 0;
     invincible = false;
+    world;
+    walking_sound = new Audio('audio/walking.mp3')
+    deadAnimationPlayed = false;
+    LastStand = 0;
 
     offset = {
         top: 50,
@@ -74,9 +78,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/long_idle/I-20.png',
     ]
 
-    world;
-    walking_sound = new Audio('audio/walking.mp3')
-    deadAnimationPlayed = false;
+
 
 
     constructor() {
@@ -106,38 +108,47 @@ class Character extends MovableObject {
             }
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
-            } 
+            }
             this.world.camera_x = -this.x + 100;
-            
+
         }, 1000 / 60);
 
         setInterval(() => {
-            if (this.isDead() && !this.deadAnimationPlayed) { 
+            if (this.isDead() && !this.deadAnimationPlayed) {
                 this.playAnimation(this.IMAGES_DEAD);
-                setTimeout( ()=>{
-                     this.deadAnimationPlayed = true;
-                },this.IMAGES_DEAD.length * 200 );
-            } else if (this.isHurt()){
+                setTimeout(() => {
+                    this.deadAnimationPlayed = true;
+                }, this.IMAGES_DEAD.length * 200);
+            } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
-            } 
+            }
             else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else {
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     this.playAnimation(this.IMAGES_WALKING);
                 }
-            } 
+            }
         }, 50);
 
-        setInterval(()=>{
-            if (this.isStanding()){
+        setInterval(() => {
+            if (this.isStanding()) {
                 this.playAnimation(this.IMAGES_IDLE);
+            } else {
+                this.LastStand = new Date().getTime();
             }
         }, 200)
     }
 
-    isStanding(){
+    isStanding() {
         return !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.world.keyboard.SPACE && !this.isAboveGround();
     }
 
+    standingTime() {
+        if (this.isStanding()) {
+            let timeStanding = new Date().getDate() - this.LastStand
+            timeStanding = timeStanding / 1000; // Time in secounds
+            return timeStanding > 5;
+        }
+    }
 }
