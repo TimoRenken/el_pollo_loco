@@ -116,7 +116,7 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_DEAD);
                 setTimeout( ()=>{
                      this.deadAnimationPlayed = true;
-                }, 250);
+                },this.IMAGES_DEAD.length * 200 );
             } else if (this.isHurt()){
                 this.playAnimation(this.IMAGES_HURT);
             } 
