@@ -9,7 +9,7 @@ class Character extends MovableObject {
     world;
     walking_sound = new Audio('audio/walking.mp3')
     deadAnimationPlayed = false;
-    LastStand = 0;
+    lastStand = 0;
 
     offset = {
         top: 50,
@@ -132,10 +132,21 @@ class Character extends MovableObject {
         }, 50);
 
         setInterval(() => {
+            let now = new Date().getTime(); // current time
+
             if (this.isStanding()) {
-                this.playAnimation(this.IMAGES_IDLE);
+                if (!this.lastStand) { // if lastStand is not defined, null, undefined, 0, false, NaN or an empty string.
+                    this.lastStand = now;
+                }
+                let timeStanding = now - this.lastStand; // Calculate the time the character has been standing
+
+                if (timeStanding >= 5000) { // change animation after 5 secounds
+                    this.playAnimation(this.IMAGES_LONG_IDLE);
+                } else {
+                    this.playAnimation(this.IMAGES_IDLE);
+                }
             } else {
-                this.LastStand = new Date().getTime();
+                this.lastStand = null; // resets lastStand when character is moving
             }
         }, 200)
     }
@@ -144,11 +155,4 @@ class Character extends MovableObject {
         return !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.world.keyboard.SPACE && !this.isAboveGround();
     }
 
-    standingTime() {
-        if (this.isStanding()) {
-            let timeStanding = new Date().getDate() - this.LastStand
-            timeStanding = timeStanding / 1000; // Time in secounds
-            return timeStanding > 5;
-        }
-    }
 }
