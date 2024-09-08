@@ -140,7 +140,7 @@ class Character extends MovableObject {
                 }
                 let timeStanding = now - this.lastStand; // Calculate the time the character has been standing
 
-                if (timeStanding >= 5000) { // change animation after 5 secounds
+                if (timeStanding >= 4000) { // change animation after 5 secounds
                     this.playAnimation(this.IMAGES_LONG_IDLE);
                 } else {
                     this.playAnimation(this.IMAGES_IDLE);
