@@ -16,7 +16,12 @@ const level1 = new Level(
     new Endboss()
 ],
 [
-    new Cloud()
+    new Cloud('img/5_background/layers/4_clouds/1.png', 200),
+    new Cloud('img/5_background/layers/4_clouds/1.png', 900),
+    new Cloud('img/5_background/layers/4_clouds/1.png', 1600),
+    new Cloud('img/5_background/layers/4_clouds/1.png', 2300),
+    new Cloud('img/5_background/layers/4_clouds/1.png', 3000),
+    new Cloud('img/5_background/layers/4_clouds/1.png', 3700)
 ],
 [
     new BackgroundObject('img/5_background/layers/air.png', -719),
