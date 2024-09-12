@@ -30,7 +30,7 @@ class MovableObject extends DrawableObject {
             return true;
         } else {
             if (this.y >= 280) {
-                this.y = 280; // Korrigiere die Position, falls der Charakter unter den Boden gefallen ist.
+                this.y = 280; // Corrects the position if the character has fallen below the ground.
                 return false;
             }
             return true;

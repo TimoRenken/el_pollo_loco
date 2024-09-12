@@ -1,5 +1,5 @@
-class ThrowableObject extends MovableObject{   
-  
+class ThrowableObject extends MovableObject {
+
     IMAGES_BOTTLE_ROTATION = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -7,7 +7,7 @@ class ThrowableObject extends MovableObject{
         'img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png',
     ]
 
-    constructor(x, y){
+    constructor(x, y) {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.IMAGES_BOTTLE_ROTATION);
         this.x = x;
@@ -16,21 +16,19 @@ class ThrowableObject extends MovableObject{
         this.width = 70;
         this.throw();
     }
-/**
- * changes coordinates to animate a throwing bottle
- */
-    throw(){
+    /**
+     * changes coordinates to animate a throwing bottle
+     */
+    throw() {
         this.speedY = 30;
         this.applyGravity();
+        if (!world.character.otherDirection) setInterval(() => this.x += 10, 25);
+        else setInterval(() => this.x -= 10, 25);
         this.animate();
-        setInterval(() =>{
-            this.x += 10;
-        },25);
-        
     }
 
-    animate(){
-        setInterval(()=>{
+    animate() {
+        setInterval(() => {
             this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
         }, 75);
     }

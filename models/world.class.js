@@ -84,7 +84,7 @@ class World {
             this.checkCollisions();
             this.checkCollection();
         }, 10)
-        setInterval(() =>{
+        setInterval(() => {
             this.checkThrowObjects();
         }, 150)
     }
@@ -94,25 +94,28 @@ class World {
             if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY < 0) { // checks if character is jumping on an object
                 this.killEnemy(enemy);
                 this.character.speedY = 20;
-             } else if (this.character.isColliding(enemy) && !this.character.isHurt()) {
+            } else if (this.character.isColliding(enemy) && !this.character.isHurt()) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.HP);
             }
         });
     }
 
-    killEnemy(enemy){
+    killEnemy(enemy) {
         this.character.invincible = true;
         enemy.HP = 0;
-        setTimeout (()=>{
-            this.level.enemies.splice(this.level.enemies.indexOf(enemy),1)
+        setTimeout(() => {
+            this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
             this.character.invincible = false;
         }, 400)
     }
 
     checkThrowObjects() {
         if (this.keyboard.D && this.character.collectedBottles > 0) {
-            let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 50);
+            let xOffset = 50;
+            if (this.character.otherDirection) xOffset = -30;
+
+            let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y +50);
             this.throwableObjects.push(bottle);
             this.character.collectedBottles--;
             this.bottleBar.percentage -= 20;
