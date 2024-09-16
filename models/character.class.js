@@ -8,6 +8,7 @@ class Character extends MovableObject {
     invincible = false;
     world;
     walking_sound = new Audio('audio/walking.mp3')
+    jumping_sound = new Audio('audio/jump.mp3')
     deadAnimationPlayed = false;
     lastStand = 0;
 
@@ -108,6 +109,7 @@ class Character extends MovableObject {
             }
             if (this.world.keyboard.SPACE && !this.isAboveGround()) { // does not allow jumping while in the air.
                 this.jump();
+                this.jumping_sound.play();
             }
             this.world.camera_x = -this.x + 200; // displays the character 200 px right of x. 
 
