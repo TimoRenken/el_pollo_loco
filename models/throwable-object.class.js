@@ -22,8 +22,8 @@ class ThrowableObject extends MovableObject {
     throw() {
         this.speedY = 30;
         this.applyGravity();
-        if (!world.character.otherDirection) setInterval(() => this.x += 10, 25);
-        else setInterval(() => this.x -= 10, 25);
+        if (!world.character.otherDirection) setInterval(() => this.x += 10, 25); // throw bottle to the right
+        else setInterval(() => this.x -= 10, 25); // throw bottle to the left
         this.animate();
     }
 

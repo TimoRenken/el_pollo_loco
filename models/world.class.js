@@ -113,7 +113,7 @@ class World {
     checkThrowObjects() {
         if (this.keyboard.D && this.character.collectedBottles > 0) {
             let xOffset = 50;
-            if (this.character.otherDirection) xOffset = -30;
+            if (this.character.otherDirection) xOffset = -30; // sets the correct start point on the x axis when otherDirection is true.
 
             let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y +50);
             this.throwableObjects.push(bottle);
