@@ -99,17 +99,17 @@ class Character extends MovableObject {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
-                this.walking_sound.play();
+                if (!this.isAboveGround()) this.walking_sound.play(); // stops walkingsound while jumping
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
                 this.otherDirection = true;
-                this.walking_sound.play();
+                if (!this.isAboveGround()) this.walking_sound.play();  // stops walkingsound while jumping
             }
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+            if (this.world.keyboard.SPACE && !this.isAboveGround()) { // does not allow jumping while in the air.
                 this.jump();
             }
-            this.world.camera_x = -this.x + 100;
+            this.world.camera_x = -this.x + 200; // displays the character 200 px right of x. 
 
         }, 1000 / 60);
 
