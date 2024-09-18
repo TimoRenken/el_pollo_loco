@@ -1,5 +1,7 @@
 class ThrowableObject extends MovableObject {
 
+    throwing_sound = new Audio ('audio/throw.mp3')
+
     IMAGES_BOTTLE_ROTATION = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -25,6 +27,7 @@ class ThrowableObject extends MovableObject {
         if (!world.character.otherDirection) setInterval(() => this.x += 10, 25); // throw bottle to the right
         else setInterval(() => this.x -= 10, 25); // throw bottle to the left
         this.animate();
+        this.throwing_sound.play();
     }
 
     animate() {

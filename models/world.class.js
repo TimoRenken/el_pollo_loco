@@ -10,6 +10,7 @@ class World {
     bottleBar = new StatusBarBottles();
     throwableObjects = [];
     collectableObject = new CollectableObjects();
+    coin = new Coin();
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -140,6 +141,7 @@ class World {
      */
     collectItem(obj) {
         if (obj instanceof Coin) {
+            this.coin.collect_coin.play();
             this.character.collectedCoins++; // increase collectedCoins by 1 after collecting a coin
             this.coinBar.percentage += 10;
             this.coinBar.setPercentage(this.character.collectedCoins); // set imagepath by collectedCoins 
