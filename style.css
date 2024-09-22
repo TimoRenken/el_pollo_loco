@@ -4,7 +4,6 @@ body{
     align-items: center;
     background-image: url('img/5_background/desert_background.jpeg');
     background-size: cover;
-    height: 100vh;
 }
 
 canvas{

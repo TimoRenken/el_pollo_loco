@@ -92,20 +92,30 @@ class World {
 
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY < 0) { // checks if character is jumping on an object
+            // Check if character is jumping on an enemy
+            if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY < 0) {
                 this.killEnemy(enemy);
                 this.character.speedY = 20;
-            } else if (this.character.isColliding(enemy) && !this.character.isHurt()) {
+            } 
+            // Check if enemy hits character and character is not hurt
+            else if (this.character.isColliding(enemy) && !this.character.isHurt()) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.HP);
             }
+    
+            // Check if any throwable object collides with the enemy
+            this.throwableObjects.forEach((throwableObject) => {
+                if (throwableObject.isColliding(enemy)) {
+                    this.killEnemy(enemy);
+                }
+            });
         });
     }
 
     killEnemy(enemy) {
-        this.character.invincible = true;
-        enemy.HP = 0;
-        setTimeout(() => {
+            this.character.invincible = true;
+            enemy.HP = 0;
+            setTimeout(() => {
             this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
             this.character.invincible = false;
         }, 400)
@@ -116,7 +126,7 @@ class World {
             let xOffset = 50;
             if (this.character.otherDirection) xOffset = -30; // sets the correct start point on the x axis when otherDirection is true.
 
-            let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y +50);
+            let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 50);
             this.throwableObjects.push(bottle);
             this.character.collectedBottles--;
             this.bottleBar.percentage -= 20;
