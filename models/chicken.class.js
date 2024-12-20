@@ -42,7 +42,6 @@ class Chicken extends MovableObject {
                 clearInterval(move); // stops chicken walking 
             } else
                 this.playAnimation(this.IMAGES_WALKING);
-
         }, 200);
     }
 

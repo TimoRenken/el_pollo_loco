@@ -106,7 +106,8 @@ class World {
             // Check if any throwable object collides with the enemy
             this.throwableObjects.forEach((throwableObject) => {
                 if (throwableObject.isColliding(enemy)) {
-                    this.killEnemy(enemy);
+                    throwableObject.splash();
+                    this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
                 }
             });
         });
