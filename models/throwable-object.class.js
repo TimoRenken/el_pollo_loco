@@ -34,6 +34,7 @@ class ThrowableObject extends MovableObject {
         this.y = y;
         this.height = 80;
         this.width = 70;
+        this.throwDirection = world.character.otherDirection ? -1 : 1;  // Set flight direction based on character direction
         this.throw();
     }
 
@@ -45,24 +46,18 @@ class ThrowableObject extends MovableObject {
         this.applyGravity();
         this.throwing_sound.play();
         this.movementInterval = setInterval(() => {
-            if (!world.character.otherDirection) {
-                this.x += 10; // Bewegung nach rechts
-            } else {
-                this.x -= 10; // Bewegung nach links
-            }
+            this.x += this.throwDirection * 10; 
         }, 25);
     
         this.animate();
     }
-    
+
     splash() {
-        clearInterval(this.movementInterval); // Stoppt die X-Achsen-Bewegung
-        clearInterval(this.rotationInterval); // Stoppt die Rotation
+        clearInterval(this.movementInterval); // Stops the X-axis movement
+        clearInterval(this.rotationInterval); // Stops the rotation
     
-        this.speedY = 0; // Bewegt sich nicht weiter auf der Y-Achse
+        this.speedY = 0; 
         this.speed = 0;
-    
-        // Splash-Animation abspielen
         this.playAnimationOnce(this.IMAGES_BOTTLE_SPLASH);
     }
 
@@ -79,7 +74,7 @@ class ThrowableObject extends MovableObject {
             this.img = this.imageCache[images[i]];
             i++;
             if (i >= images.length) {
-                clearInterval(interval); // Beendet die Animation nach dem letzten Frame
+                clearInterval(interval); // Ends the animation after the last frame
             }
         }, 125);
     }
