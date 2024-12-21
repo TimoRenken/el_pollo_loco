@@ -48,7 +48,6 @@ class ThrowableObject extends MovableObject {
         this.movementInterval = setInterval(() => {
             this.x += this.throwDirection * 10; 
         }, 25);
-    
         this.animate();
     }
 
