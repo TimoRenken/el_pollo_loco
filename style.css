@@ -1,10 +1,11 @@
 @font-face {
-    font-family: 'zabras';
-    src: url('fonts/zabars.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+    font-family: 'kablammo';
+    src: url('fonts/kablammo.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
 }  
 
 body{
     height: 100vh;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -12,14 +13,33 @@ body{
     background-image: url('img/5_background/desert_background.jpeg');
     background-size: cover;
     background-position:center ;
-    font-family: 'zabras', Arial, Helvetica, sans-serif;
+    font-family: 'kablammo', Arial, Helvetica, sans-serif;
 }
 
 canvas{
     background-color: black;
+    display: block;
 }
 
 h1 {
     font-size: 64px;
     letter-spacing: 3px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    position: absolute;
+    top: 0;
+}
+
+@media only screen and (max-width: 720px) {
+    canvas{
+        width: 100%;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    canvas{
+        height: 100vh;
+    }
+    h1{
+        display:none;
+    }
 }
