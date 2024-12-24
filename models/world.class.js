@@ -111,7 +111,8 @@ class World {
     
             // Check if any throwable object collides with the enemy
             this.throwableObjects.forEach((throwableObject) => {
-                if (throwableObject.isColliding(enemy)) {
+                if (throwableObject.isColliding(enemy) && !throwableObject.isBroken) {
+                    throwableObject.isBroken = true;
                     throwableObject.splash();
                     this.hitWithBottle(enemy);
                 }
@@ -129,7 +130,7 @@ class World {
     }
 
     hitWithBottle(enemy){
-        enemy.HP -= 20;
+        enemy.hit() // reduce enemies live by 20 HP per hit.
         if (enemy.HP <= 0){
             this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
         }
