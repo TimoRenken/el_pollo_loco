@@ -54,7 +54,7 @@ class Endboss extends MovableObject{
     hadFirstContact = false;
     
     constructor(){
-        super().loadImage(this.IMAGES_WALKING[0]);
+        super().loadImage(this.IMAGES_ALERT[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_ATTACK);
@@ -69,9 +69,9 @@ class Endboss extends MovableObject{
         let i = 0;
         setInterval(() => {
             if (i < 7 ){
-                this.playAnimation(this.IMAGES_WALKING);
-            } else {
                 this.playAnimation(this.IMAGES_ALERT);
+            } else {
+                this.playAnimation(this.IMAGES_WALKING);
             }
             i++;
 

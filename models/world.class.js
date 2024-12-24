@@ -8,6 +8,7 @@ class World {
     healthBar = new StatusBarHealth();
     coinBar = new StatusBarCoins();
     bottleBar = new StatusBarBottles();
+    endbossBar = new StatusBarEndboss();
     throwableObjects = [];
     collectableObject = new CollectableObjects();
     coin = new Coin();
@@ -32,12 +33,10 @@ class World {
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
 
-        // space for fixed Objects
-        this.ctx.translate(-this.camera_x, 0); // Back
-        this.addToMap(this.healthBar);
-        this.addToMap(this.coinBar);
-        this.addToMap(this.bottleBar);
-        this.ctx.translate(this.camera_x, 0); // Forwards
+        // Space for fixed Objects
+        this.ctx.translate(-this.camera_x, 0); // Backward
+        this.addStatusBars();
+        this.ctx.translate(this.camera_x, 0); // Forward
 
         this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects)
@@ -80,6 +79,13 @@ class World {
         this.ctx.restore();
     }
 
+    addStatusBars(){
+        this.addToMap(this.healthBar);
+        this.addToMap(this.coinBar);
+        this.addToMap(this.bottleBar);
+        this.addToMap(this.endbossBar);
+    }
+
     run() {
         setInterval(() => {
             this.checkCollisions();
@@ -114,7 +120,7 @@ class World {
     }
 
     killEnemy(enemy) {
-            this.character.invincible = true;
+            this.character.invincible = true; 
             enemy.HP = 0;
             setTimeout(() => {
             this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
