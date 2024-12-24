@@ -113,7 +113,7 @@ class World {
             this.throwableObjects.forEach((throwableObject) => {
                 if (throwableObject.isColliding(enemy)) {
                     throwableObject.splash();
-                    this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
+                    this.hitWithBottle(enemy);
                 }
             });
         });
@@ -126,6 +126,13 @@ class World {
             this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
             this.character.invincible = false;
         }, 400)
+    }
+
+    hitWithBottle(enemy){
+        enemy.HP -= 20;
+        if (enemy.HP <= 0){
+            this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
+        }
     }
 
     checkThrowObjects() {
