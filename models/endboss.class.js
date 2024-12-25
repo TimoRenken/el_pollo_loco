@@ -2,7 +2,7 @@ class Endboss extends MovableObject{
     y = 235;
     height = 200;
     width = 200;
-    HP = 100;
+    HP = 100
 
     offset = {
         top: 0,
@@ -69,9 +69,13 @@ class Endboss extends MovableObject{
     animate() {
         let i = 0;
         setInterval(() => {
-            if (i < 7 ){
+            if (this.isDead()) {
+                this.playAnimation(this.IMAGES_DEAD);
+            } else if (i < 7 ){
                 this.playAnimation(this.IMAGES_ALERT);
-            } else {
+            } else if (this.isHurt()) {
+                this.playAnimation(this.IMAGES_HURT);
+            }else {
                 this.playAnimation(this.IMAGES_WALKING);
             }
             i++;
