@@ -2,7 +2,7 @@ class Character extends MovableObject {
     width = 100;
     height = 150;
     y = 280;
-    speed = 5;
+    speed = 15; // 5 is needed / just for development
     collectedCoins = 0;
     collectedBottles = 100; // needs to be reset for the complete Game, just for testing
     invincible = false;

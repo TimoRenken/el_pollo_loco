@@ -132,7 +132,7 @@ class World {
     hitWithBottle(enemy){
         enemy.hit() // reduce enemies live by 20 HP per hit.
         if(enemy instanceof Endboss){
-            this.endbossBar.setPercentage(enemy.HP);
+            this.endbossBar.setPercentage(enemy.HP); // reduce live from the endboss statusbar
         } else if (enemy instanceof Endboss && enemy.isDead()){
             setTimeout(()=>{
                 this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
