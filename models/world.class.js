@@ -61,7 +61,7 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        // mo.drawFrame(this.ctx);       draws a reactangle for collision
+        mo.drawFrame(this.ctx);  //     draws a reactangle for collision
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
