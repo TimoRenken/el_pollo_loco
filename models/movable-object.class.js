@@ -37,12 +37,22 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    isColliding(mo) { // mo = movableObject
-        return this.x + this.width - this.offset.right > mo.x + mo.offset.left && // Right -> Left
-            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && // Top -> Bottom
-            this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&    // Left -> Right
-            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;     // Bottm -> Top
+    isColliding(mo, attackRange = false) { 
+        let horizontalOverlap = 
+            this.x + this.width - this.offset.right > mo.x + mo.offset.left && 
+            this.x + this.offset.left < mo.x + mo.width - mo.offset.right;
+        let verticalOverlap = 
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && 
+            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+    
+        if (attackRange) {
+            let distance = Math.abs(this.x - mo.x);
+            return horizontalOverlap && distance < 250; // Attack within 250px range
+        }
+    
+        return horizontalOverlap && verticalOverlap;
     }
+    
 
     playAnimation(images) {
         let i = this.currentImage % images.length; // let i = 7 % 6; => 1, rest 1

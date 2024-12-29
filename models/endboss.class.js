@@ -32,9 +32,6 @@ class Endboss extends MovableObject {
 
     IMAGES_ATTACK = [
         'img/4_enemie_boss_chicken/3_attack/G13.png',
-        'img/4_enemie_boss_chicken/3_attack/G14.png',
-        'img/4_enemie_boss_chicken/3_attack/G15.png',
-        'img/4_enemie_boss_chicken/3_attack/G16.png',
         'img/4_enemie_boss_chicken/3_attack/G17.png',
         'img/4_enemie_boss_chicken/3_attack/G18.png',
         'img/4_enemie_boss_chicken/3_attack/G19.png',
@@ -69,33 +66,36 @@ class Endboss extends MovableObject {
 
     animate() {
         let i = 0;
-
+    
         setInterval(() => {
             if (world.character.x > 1900 && !this.hadFirstContact) {
-                i = 0; 
-                this.hadFirstContact = true;
-
-                // Starts Animation after first contact
-                setInterval(() => {
-                    if (this.isDead()) {
-                        this.playAnimation(this.IMAGES_DEAD);
-                    } else if (i < 7) {
-                        this.playAnimation(this.IMAGES_ALERT);
-                    } else if (this.isHurt()) {
-                        this.playAnimation(this.IMAGES_HURT);
-                    } else {
-                        this.bossMoveLeft();
-                    }
+                this.hadFirstContact = true; 
+            }
+    
+            if (this.hadFirstContact) {
+                if (this.isDead()) {
+                    this.playAnimation(this.IMAGES_DEAD);
+                } else if (i < 7) { 
+                    this.playAnimation(this.IMAGES_ALERT); // Shows alert animation for the first 7 frames
                     i++;
-                }, 250);
+                } else if (this.isHurt()) {
+                    this.playAnimation(this.IMAGES_HURT);
+                } else if (this.isColliding(world.character, true)) { 
+                    this.playAnimation(this.IMAGES_ATTACK); // Performs attack when the character is within range
+                } else {
+                    this.bossMoveLeft();
+                }
             }
         }, 250);
     }
-
+    
     bossMoveLeft() {
-        this.playAnimation(this.IMAGES_WALKING);
-        this.moveLeft();
-    };
+        if (!this.isHurt() && !this.isDead()) {
+            this.playAnimation(this.IMAGES_WALKING);
+            this.moveLeft();
+        }
+    }
+    
 
 }
 
