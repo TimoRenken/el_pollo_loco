@@ -96,19 +96,26 @@ class World {
         }, 150)
     }
 
+    /**
+     * This function permanently checks if the is a collision in the game.
+     */
     checkCollisions() {
         this.checkCollisionWithEnemy();
         this.checkBottleCollisionWithEnemy();
     }
 
+
+    /** This Function is used to check if the character is colliding with an enemy.
+     * 
+     */
     checkCollisionWithEnemy() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                if (this.character.isAboveGround() && this.character.speedY < 0) { // Check if character is jumping on an enemy
+                if (this.character.isAboveGround() && this.character.speedY < 0) { // Checks if character is jumping on an enemy
                     this.killEnemy(enemy);
                     this.character.speedY = 20;
                 }
-                else if (!this.character.isHurt() && this.character.speedY <= 0) {   // Check if enemy hits character and character is not hurt
+                else if (!this.character.isHurt() && this.character.speedY <= 0) {   // Checks if enemy hits character who is on the ground and not hurt.
                     this.character.hit();
                     this.healthBar.setPercentage(this.character.HP);
                 }
@@ -116,6 +123,9 @@ class World {
         });
     }
 
+    /**
+     * This function checks if a bottle is colliding with an enemy
+     */
     checkBottleCollisionWithEnemy() {
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((throwableObject) => {
@@ -128,45 +138,47 @@ class World {
         });
     }
 
-
-
-
-
-
+    /**
+     * Deals damage to an enemy. 
+     * When the hitted enemy is a normal or small chicken, it will be deleted after a short killanmiation.
+     * @param {*} enemy this is the generated enemy.
+     */
     killEnemy(enemy) {
         enemy.hit() // reduce enemies live by 20 HP per hit.
-        if (enemy instanceof Chicken || SmallChicken) {
+        if (enemy instanceof Chicken || enemy instanceof SmallChicken) {
             setTimeout(() => {
-                this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
-
+                this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1) 
             }, 400)
         }
-
     }
 
+    /**
+     * This function deals damage to an enemy which is hitten by a flying bottle.
+     * @param {*} enemy this is the generated enemy.
+     */
     hitWithBottle(enemy) {
         enemy.hit() // reduce enemies live by 20 HP per hit.
         if (enemy instanceof Endboss) {
             this.endbossBar.setPercentage(enemy.HP); // reduce live from the endboss statusbar
-        } else if (enemy instanceof Endboss && enemy.isDead()) {
-            setTimeout(() => {
-                this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
-            }, 2000)
         } else if (enemy.isDead()) {
-            this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
+            this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1) // deletes the hitted enemy
         }
     }
+
+    /**
+     * This function is used to check if its possible to throw a bottle.
+     */
 
     checkThrowObjects() {
         if (this.keyboard.D && this.character.collectedBottles > 0) {
             let xOffset = 50;
             if (this.character.otherDirection) xOffset = -30; // sets the correct start point on the x axis when otherDirection is true.
 
-            let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 50);
-            this.throwableObjects.push(bottle);
-            this.character.collectedBottles--;
-            this.bottleBar.percentage -= 20;
-            this.bottleBar.setPercentage(this.character.collectedBottles);
+            let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 50); 
+            this.throwableObjects.push(bottle); 
+            this.character.collectedBottles--; 
+            this.bottleBar.percentage -= 20; // sets percentage to choose the right image at the statusbar
+            this.bottleBar.setPercentage(this.character.collectedBottles); // reduces the amount of bottles in the status bar
         }
     }
 

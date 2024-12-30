@@ -83,16 +83,22 @@ class Endboss extends MovableObject {
                 } else if (this.isColliding(world.character, true)) { 
                     this.playAnimation(this.IMAGES_ATTACK); // Performs attack when the character is within range
                 } else {
-                    this.bossMoveLeft();
+                    this.bossMoves();
                 }
             }
         }, 250);
     }
     
-    bossMoveLeft() {
+    bossMoves() {
         if (!this.isHurt() && !this.isDead()) {
+            if (world.character.x > this.x) { // Checks if chracter is on the right side
+                this.otherDirection = true; // Endboss looks to the right
+                this.moveRight(); 
+            } else {
+                this.otherDirection = false; // Endboss looks to the left
+                this.moveLeft();
+            }
             this.playAnimation(this.IMAGES_WALKING);
-            this.moveLeft();
         }
     }
     
