@@ -37,22 +37,22 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    isColliding(mo, attackRange = false) { 
-        let horizontalOverlap = 
-            this.x + this.width - this.offset.right > mo.x + mo.offset.left && 
+    isColliding(mo, attackRange = false) {
+        let horizontalOverlap =
+            this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
             this.x + this.offset.left < mo.x + mo.width - mo.offset.right;
-        let verticalOverlap = 
-            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && 
+        let verticalOverlap =
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
-    
+
         if (attackRange) {
             let distance = Math.abs(this.x - mo.x);
             return horizontalOverlap && distance < 250; // Attack within 250px range
         }
-    
+
         return horizontalOverlap && verticalOverlap;
     }
-    
+
 
     playAnimation(images) {
         let i = this.currentImage % images.length; // let i = 7 % 6; => 1, rest 1
@@ -74,15 +74,14 @@ class MovableObject extends DrawableObject {
     };
 
     hit() {
-        if (!world.character.invincible) {
-            this.HP -= 20;
-            if (this.HP < 0) {
-                this.HP = 0;
-            } else {
-                this.lastHit = new Date().getTime();
-            }
+        this.HP -= 20;
+        if (this.HP < 0) {
+            this.HP = 0;
+        } else {
+            this.lastHit = new Date().getTime();
         }
     }
+
 
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit // difference in ms
