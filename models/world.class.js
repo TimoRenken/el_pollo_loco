@@ -79,7 +79,7 @@ class World {
         this.ctx.restore();
     }
 
-    addStatusBars(){
+    addStatusBars() {
         this.addToMap(this.healthBar);
         this.addToMap(this.coinBar);
         this.addToMap(this.bottleBar);
@@ -97,19 +97,27 @@ class World {
     }
 
     checkCollisions() {
+        this.checkCollisionWithEnemy();
+        this.checkBottleCollisionWithEnemy();
+    }
+
+    checkCollisionWithEnemy() {
         this.level.enemies.forEach((enemy) => {
-            // Check if character is jumping on an enemy
-            if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY < 0) {
-                this.killEnemy(enemy);
-                this.character.speedY = 20;
-            } 
-            // Check if enemy hits character and character is not hurt
-            else if (this.character.isColliding(enemy) && !this.character.isHurt()) {
-                this.character.hit();
-                this.healthBar.setPercentage(this.character.HP);
+            if (this.character.isColliding(enemy)) {
+                if (this.character.isAboveGround() && this.character.speedY < 0) { // Check if character is jumping on an enemy
+                    this.killEnemy(enemy);
+                    this.character.speedY = 20;
+                }
+                else if (!this.character.isHurt() && this.character.speedY <= 0) {   // Check if enemy hits character and character is not hurt
+                    this.character.hit();
+                    this.healthBar.setPercentage(this.character.HP);
+                }
             }
-    
-            // Check if any throwable object collides with the enemy
+        });
+    }
+
+    checkBottleCollisionWithEnemy() {
+        this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((throwableObject) => {
                 if (throwableObject.isColliding(enemy) && !throwableObject.isBroken) {
                     throwableObject.isBroken = true;
@@ -120,26 +128,33 @@ class World {
         });
     }
 
+
+
+
+
+
     killEnemy(enemy) {
-            this.character.invincible = true; 
-            enemy.HP = 0;
+        enemy.hit() // reduce enemies live by 20 HP per hit.
+        if (enemy instanceof Chicken || SmallChicken) {
             setTimeout(() => {
-            this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
-            this.character.invincible = false;
-        }, 400)
+                this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
+
+            }, 400)
+        }
+
     }
 
-    hitWithBottle(enemy){
+    hitWithBottle(enemy) {
         enemy.hit() // reduce enemies live by 20 HP per hit.
-        if(enemy instanceof Endboss){
+        if (enemy instanceof Endboss) {
             this.endbossBar.setPercentage(enemy.HP); // reduce live from the endboss statusbar
-        } else if (enemy instanceof Endboss && enemy.isDead()){
-            setTimeout(()=>{
+        } else if (enemy instanceof Endboss && enemy.isDead()) {
+            setTimeout(() => {
                 this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
             }, 2000)
-        } else if (enemy.isDead()){
+        } else if (enemy.isDead()) {
             this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
-        } 
+        }
     }
 
     checkThrowObjects() {
