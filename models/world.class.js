@@ -145,10 +145,12 @@ class World {
      */
     killEnemy(enemy) {
         enemy.hit() // reduce enemies live by 20 HP per hit.
-        if (enemy instanceof Chicken || enemy instanceof SmallChicken) {
+        if (enemy instanceof Chicken || enemy instanceof SmallChicken) { // short killanimation
             setTimeout(() => {
-                this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1) 
+                this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
             }, 400)
+        } else {
+            this.endbossBar.setPercentage(enemy.HP); // reduce live from the endboss statusbar
         }
     }
 
@@ -174,9 +176,9 @@ class World {
             let xOffset = 50;
             if (this.character.otherDirection) xOffset = -30; // sets the correct start point on the x axis when otherDirection is true.
 
-            let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 50); 
-            this.throwableObjects.push(bottle); 
-            this.character.collectedBottles--; 
+            let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 50);
+            this.throwableObjects.push(bottle);
+            this.character.collectedBottles--;
             this.bottleBar.percentage -= 20; // sets percentage to choose the right image at the statusbar
             this.bottleBar.setPercentage(this.character.collectedBottles); // reduces the amount of bottles in the status bar
         }
