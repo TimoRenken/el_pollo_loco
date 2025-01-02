@@ -11,6 +11,7 @@ class Character extends MovableObject {
     jumping_sound = new Audio('audio/jump.mp3')
     deadAnimationPlayed = false;
     lastStand = 0;
+    hadFirstContact = false;
 
     offset = {
         top: 50,

@@ -83,7 +83,9 @@ class World {
         this.addToMap(this.healthBar);
         this.addToMap(this.coinBar);
         this.addToMap(this.bottleBar);
-        this.addToMap(this.endbossBar);
+        if(this.character.hadFirstContact){
+            this.addToMap(this.endbossBar);
+        }
     }
 
     run() {

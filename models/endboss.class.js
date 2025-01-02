@@ -50,8 +50,6 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
-    hadFirstContact = false;
-
     constructor() {
         super().loadImage(this.IMAGES_ALERT[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -68,11 +66,11 @@ class Endboss extends MovableObject {
         let i = 0;
     
         setInterval(() => {
-            if (world.character.x > 1900 && !this.hadFirstContact) {
-                this.hadFirstContact = true; 
+            if (world.character.x > 1900 && !world.character.hadFirstContact) {
+                world.character.hadFirstContact = true; 
             }
     
-            if (this.hadFirstContact) {
+            if (world.character.hadFirstContact) {
                 if (this.isDead()) {
                     this.playAnimation(this.IMAGES_DEAD);
                 } else if (i < 7) { 
