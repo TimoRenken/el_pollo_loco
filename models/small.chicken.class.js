@@ -3,6 +3,8 @@ class SmallChicken extends MovableObject {
     height = 35;
     width = 40;
     HP = 5;
+    chick_died_sound = new Audio('audio/smallChicken.mp3');
+    soundPlayed = false; // Flag to check if sound has been played
 
     offset = {
         top: 0,
@@ -19,7 +21,7 @@ class SmallChicken extends MovableObject {
 
     IMAGE_DEAD = [
         'img/3_enemies_chicken/chicken_small/2_dead/dead.png'
-    ]
+    ];
 
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
@@ -31,20 +33,21 @@ class SmallChicken extends MovableObject {
     }
 
     animate() {
-
         const move = setInterval(() => {
             this.moveLeft();
         }, 1000 / 60);
 
-        const animation = setInterval(() => {
+        setInterval(() => {
             if (this.isDead()) { // checks if HP is <= 0
+                if (!this.soundPlayed) {
+                    this.chick_died_sound.play(); // Play sound only once
+                    this.soundPlayed = true; // Mark sound as played
+                }
                 this.loadImage(this.IMAGE_DEAD);
-                clearInterval(move); // stops chicken walking 
-            } else
+                clearInterval(move); // stops chicken walking
+            } else {
                 this.playAnimation(this.IMAGES_WALKING);
-
+            }
         }, 200);
     }
-
-
 }

@@ -1,6 +1,7 @@
 class ThrowableObject extends MovableObject {
 
     throwing_sound = new Audio('audio/throw.mp3')
+    broken_glas = new Audio('audio/glassShatter.mp3')
 
     IMAGES_BOTTLE_ROTATION = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
@@ -58,6 +59,7 @@ class ThrowableObject extends MovableObject {
         this.speedY = 0; 
         this.speed = 0;
         this.playAnimationOnce(this.IMAGES_BOTTLE_SPLASH);
+        this.broken_glas.play();
     }
 
     animate() {
