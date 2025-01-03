@@ -3,6 +3,8 @@ class Chicken extends MovableObject {
     height = 50;
     width = 60;
     HP = 20;
+    chickenDied_sound = new Audio('audio/chicken.mp3');
+    soundPlayed = false; // Flag to check if sound has been played
 
     offset = {
         top: 0,
@@ -30,18 +32,22 @@ class Chicken extends MovableObject {
         this.animate();
     }
 
-    animate() {
-
+     animate() {
         const move = setInterval(() => {
             this.moveLeft();
         }, 1000 / 60);
 
-        const animation = setInterval(() => {
+        setInterval(() => {
             if (this.isDead()) { // checks if HP is <= 0
+                if (!this.soundPlayed) {
+                    this.chickenDied_sound.play(); // Play sound only once
+                    this.soundPlayed = true; // Mark sound as played
+                }
                 this.loadImage(this.IMAGE_DEAD);
-                clearInterval(move); // stops chicken walking 
-            } else
+                clearInterval(move); // stops chicken walking
+            } else {
                 this.playAnimation(this.IMAGES_WALKING);
+            }
         }, 200);
     }
 
