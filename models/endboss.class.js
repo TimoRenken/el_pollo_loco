@@ -4,6 +4,7 @@ class Endboss extends MovableObject {
     width = 200;
     HP = 100
     speed = 15;
+    hurt_sound = new Audio('audio/endbossHurt.mp3');
 
     offset = {
         top: 80,
@@ -78,6 +79,7 @@ class Endboss extends MovableObject {
                     i++;
                 } else if (this.isHurt()) {
                     this.playAnimation(this.IMAGES_HURT);
+                    this.hurt_sound.play();
                 } else if (this.isColliding(world.character, true)) { 
                     this.playAnimation(this.IMAGES_ATTACK); // Performs attack when the character is within range
                 } else {
