@@ -109,7 +109,10 @@ class Character extends MovableObject {
                 this.jump();
                 this.jumping_sound.play();
             }
-            this.world.camera_x = -this.x + 200; // displays the character 200 px right of x. 
+            // Calculate camera_x to center the character but limit it to 4200 px
+            let cameraOffset = Math.min(Math.max(-this.x + 200, -(4200 - this.world.canvas.width)), 0);
+            this.world.camera_x = cameraOffset;
+
 
         }, 1000 / 60);
 
