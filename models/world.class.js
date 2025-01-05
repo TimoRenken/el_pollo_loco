@@ -12,6 +12,7 @@ class World {
     throwableObjects = [];
     collectableObject = new CollectableObjects();
     coin = new Coin();
+    bottle = new Bottle();
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -209,6 +210,7 @@ class World {
             this.coinBar.setPercentage(this.character.collectedCoins); // set imagepath by collectedCoins 
             this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(obj), 1) // Remove the coin from array
         } else if (obj instanceof Bottle) {
+            this.bottle.collect_bottle.play();
             this.character.collectedBottles++; // increase collectedBottles by 1 after collecting a bottle
             this.bottleBar.percentage += 20;
             this.bottleBar.setPercentage(this.character.collectedBottles);

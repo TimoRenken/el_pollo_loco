@@ -3,6 +3,7 @@ class Bottle extends MovableObject{
     height = 70;
     width = 60;
     isBroken = false;
+    collect_bottle = new Audio ('audio/collect.mp3');
 
 
     offset = {
