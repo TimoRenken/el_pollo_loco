@@ -3,8 +3,9 @@ class Endboss extends MovableObject {
     height = 200;
     width = 200;
     HP = 100
-    speed = 15;
+    speed = 25;
     hurt_sound = new Audio('audio/endbossHurt.mp3');
+    isJumping = false;
 
     offset = {
         top: 80,
@@ -58,23 +59,24 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        this.x = 4000;
+        this.x = 4000; // 4000
         this.animate();
+        this.applyGravity();
 
     }
 
     animate() {
         let i = 0;
-    
+
         setInterval(() => {
             if (world.character.x > 3600 && !world.character.hadFirstContact) {
-                world.character.hadFirstContact = true; 
+                world.character.hadFirstContact = true;
             }
-    
+
             if (world.character.hadFirstContact) {
                 if (this.isDead()) {
                     this.playAnimation(this.IMAGES_DEAD);
-                } else if (i < 7) { 
+                } else if (i < 7) {
                     this.playAnimation(this.IMAGES_ALERT); // Shows alert animation for the first 7 frames
                     i++;
                 } else if (this.isHurt()) {
@@ -88,12 +90,12 @@ class Endboss extends MovableObject {
             }
         }, 250);
     }
-    
+
     bossMoves() {
         if (!this.isHurt() && !this.isDead()) {
             if (world.character.x > this.x) { // Checks if chracter is on the right side
                 this.otherDirection = true; // Endboss looks to the right
-                this.moveRight(); 
+                this.moveRight();
             } else {
                 this.otherDirection = false; // Endboss looks to the left
                 this.moveLeft();
@@ -103,5 +105,24 @@ class Endboss extends MovableObject {
     }
     
 
+    /**
+     * just a TRY to implement a jump for the endboss
+     */
+    jumpTowardsCharacter() {
+        const distanceToCharacter = Math.abs(world.character.x - this.x);
+        // Sprung nur auslösen, wenn der Endboss sich nahe genug am Charakter befindet
+        if (distanceToCharacter < 500 && this.y >= 235) {  
+            this.speedY = 30;  // Vertikale Geschwindigkeit für den Sprung
+    
+            // Berechne die horizontale Richtung basierend auf der Position des Charakters
+            const direction = world.character.x > this.x ? 1 : -1;  // Wenn der Charakter rechts vom Boss ist, geht der Boss nach rechts
+    
+            // Setze Intervall für die horizontale Bewegung während des Sprungs
+            this.jumpingInterval = setInterval(() => {
+                this.x += direction * 10;  // Bewege den Endboss in die richtige Richtung
+            }, 25);
+        }
+    }
+    
 }
 

@@ -26,16 +26,19 @@ class MovableObject extends DrawableObject {
      * @returns true or false
      */
     isAboveGround() {
-        if (this instanceof ThrowableObject) { // ThrowableObject should always fall.
-            return true;
+        if (this instanceof ThrowableObject) {
+            return true; // ThrowableObject should allways fall
+        } else if (this instanceof Endboss) {
+            return this.y < 235; // The Endboss is above the ground at 235px.
         } else {
             if (this.y >= 280) {
-                this.y = 280; // Corrects the position if the character has fallen below the ground.
+                this.y = 280; // correction if character is below the ground.
                 return false;
             }
             return true;
         }
     }
+    
 
     isColliding(mo, attackRange = false) {
         let horizontalOverlap =
