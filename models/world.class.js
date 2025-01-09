@@ -225,10 +225,9 @@ class World {
     }
 
     spawnNewBottles() {
-        const positions = [2700, 2900, 3100, 3300, 3500]; // Beispiel für fixe x-Positionen
-        const newBottles = positions.map(x => new Bottle(x, 350)); // y ist konstant (z. B. 350)
-        this.level.collectableObjects.push(...newBottles);
-        console.log('Neue Flaschen an festen Positionen gespawnt!');
+        const positions = [2700, 2900, 3100, 3300, 3500]; // fixed positions for new bottles
+        const newBottles = positions.map(x => new Bottle(x, 350)); // create new bottles at fixed positions
+        this.level.collectableObjects.push(...newBottles); // add new bottles to collectable objects
     }
     
 
