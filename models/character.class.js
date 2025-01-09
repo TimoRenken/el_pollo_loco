@@ -4,7 +4,7 @@ class Character extends MovableObject {
     y = 280;
     speed = 5; // 5 is needed  maybe 7/ just for development
     collectedCoins = 0;
-    collectedBottles = 100; // needs to be reset for the complete Game, just for testing
+    collectedBottles = 0; // needs to be reset for the complete Game, just for testing
     invincible = false;
     world;
     walking_sound = new Audio('audio/walking.mp3')

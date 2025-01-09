@@ -5,7 +5,7 @@ class Endboss extends MovableObject {
     HP = 100
     speed = 25;
     hurt_sound = new Audio('audio/endbossHurt.mp3');
-    isJumping = false;
+    isJumping = false; // kann entfernt werden wenn der Sprung nicht funktioniert
 
     offset = {
         top: 80,
@@ -88,7 +88,7 @@ class Endboss extends MovableObject {
                     this.bossMoves();
                 }
             }
-        }, 250);
+        }, 225);
     }
 
     bossMoves() {
