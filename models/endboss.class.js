@@ -5,7 +5,6 @@ class Endboss extends MovableObject {
     HP = 100
     speed = 25;
     hurt_sound = new Audio('audio/endbossHurt.mp3');
-    isJumping = false; // kann entfernt werden wenn der Sprung nicht funktioniert
 
     offset = {
         top: 80,
@@ -101,26 +100,6 @@ class Endboss extends MovableObject {
                 this.moveLeft();
             }
             this.playAnimation(this.IMAGES_WALKING);
-        }
-    }
-    
-
-    /**
-     * just a TRY to implement a jump for the endboss
-     */
-    jumpTowardsCharacter() {
-        const distanceToCharacter = Math.abs(world.character.x - this.x);
-        // Sprung nur auslösen, wenn der Endboss sich nahe genug am Charakter befindet
-        if (distanceToCharacter < 500 && this.y >= 235) {  
-            this.speedY = 30;  // Vertikale Geschwindigkeit für den Sprung
-    
-            // Berechne die horizontale Richtung basierend auf der Position des Charakters
-            const direction = world.character.x > this.x ? 1 : -1;  // Wenn der Charakter rechts vom Boss ist, geht der Boss nach rechts
-    
-            // Setze Intervall für die horizontale Bewegung während des Sprungs
-            this.jumpingInterval = setInterval(() => {
-                this.x += direction * 10;  // Bewege den Endboss in die richtige Richtung
-            }, 25);
         }
     }
     

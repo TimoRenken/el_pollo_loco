@@ -196,6 +196,12 @@ class World {
                 this.collectItem(obj);
             }
         });
+
+        // check if all bottles are collected and spawn new bottles
+        const remainingBottles = this.level.collectableObjects.filter(obj => obj instanceof Bottle);
+        if (remainingBottles.length === 0 && this.character.hadFirstContact) {
+            this.spawnNewBottles();
+        }
     }
 
     /**
@@ -209,7 +215,7 @@ class World {
             this.coinBar.percentage += 10;
             this.coinBar.setPercentage(this.character.collectedCoins); // set imagepath by collectedCoins 
             this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(obj), 1) // Remove the coin from array
-        } else if (obj instanceof Bottle) {
+        } else if (obj instanceof Bottle && this.character.collectedBottles < 5) {
             this.bottle.collect_bottle.play();
             this.character.collectedBottles++; // increase collectedBottles by 1 after collecting a bottle
             this.bottleBar.percentage += 20;
@@ -217,6 +223,14 @@ class World {
             this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(obj), 1)
         }
     }
+
+    spawnNewBottles() {
+        const positions = [2700, 2900, 3100, 3300, 3500]; // Beispiel für fixe x-Positionen
+        const newBottles = positions.map(x => new Bottle(x, 350)); // y ist konstant (z. B. 350)
+        this.level.collectableObjects.push(...newBottles);
+        console.log('Neue Flaschen an festen Positionen gespawnt!');
+    }
+    
 
 
 }

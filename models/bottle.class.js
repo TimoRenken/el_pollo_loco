@@ -5,7 +5,6 @@ class Bottle extends MovableObject{
     isBroken = false;
     collect_bottle = new Audio ('audio/collect.mp3');
 
-
     offset = {
         top: 10,
         right: 0,
