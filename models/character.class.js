@@ -2,16 +2,17 @@ class Character extends MovableObject {
     width = 100;
     height = 150;
     y = 280;
-    speed = 5; // 5 is needed  maybe 7/ just for development
+    speed = 5;
     collectedCoins = 0;
-    collectedBottles = 0; // needs to be reset for the complete Game, just for testing
+    collectedBottles = 0; 
     invincible = false;
     world;
     walking_sound = new Audio('audio/walking.mp3')
     jumping_sound = new Audio('audio/jump.mp3')
+    hurt_sound = new Audio('audio/hurt.mp3')
     deadAnimationPlayed = false;
-    lastStand = 0;
     hadFirstContact = false;
+    hurtSoundPlayed = false;
 
     offset = {
         top: 50,
@@ -108,22 +109,17 @@ class Character extends MovableObject {
             if (this.world.keyboard.SPACE && !this.isAboveGround()) { // does not allow jumping while in the air.
                 this.jump();
                 this.jumping_sound.play();
-            }
+            } 
             // Calculate camera_x to center the character but limit it to 4200 px
-            let cameraOffset = Math.min(Math.max(-this.x + 200, -(4200 - this.world.canvas.width)), 0);
+            let cameraOffset = Math.min(Math.max(-this.x + 200, -(4200 - this.world.canvas.width)), 0);  
             this.world.camera_x = cameraOffset;
-
-
         }, 1000 / 60);
 
         setInterval(() => {
             if (this.isDead() && !this.deadAnimationPlayed) {
-                this.playAnimation(this.IMAGES_DEAD);
-                setTimeout(() => {
-                    this.deadAnimationPlayed = true;
-                }, this.IMAGES_DEAD.length * 200);
+                this.deadAnimation();
             } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
+                this.hurtAnimation();
             }
             else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
@@ -156,6 +152,32 @@ class Character extends MovableObject {
 
     isStanding() {
         return !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.world.keyboard.SPACE && !this.isAboveGround();
+    }
+
+    /**
+     * this function is called when the character is hurt
+     * it plays the hurt animation and sound
+     */
+    hurtAnimation() {
+        this.playAnimation(this.IMAGES_HURT);
+        if(!this.hurtSoundPlayed){
+        this.hurt_sound.play();
+        this.hurtSoundPlayed = true;
+        setTimeout(() => {
+            this.hurtSoundPlayed = false;   
+        }, 2000);
+        }
+    }
+
+    /**
+     * this function is called when the character is dead
+     * it plays the dead animation and sets the deadAnimationPlayed flag to true
+     */
+    deadAnimation(){
+        this.playAnimation(this.IMAGES_DEAD);
+        setTimeout(() => {
+            this.deadAnimationPlayed = true;
+        }, this.IMAGES_DEAD.length * 200);
     }
 
 }
