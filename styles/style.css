@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'kablammo';
-    src: url('fonts/kablammo.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+    src: url('/fonts/kablammo.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
 }  
 
 body{
@@ -10,7 +10,7 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-image: url('img/5_background/desert_background.jpeg');
+    background-image: url('/img/5_background/desert_background.jpeg');
     background-size: cover;
     background-position:center ;
     font-family: 'kablammo', Arial, Helvetica, sans-serif;
