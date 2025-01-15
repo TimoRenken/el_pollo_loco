@@ -5,7 +5,6 @@ class Character extends MovableObject {
     speed = 5;
     collectedCoins = 0;
     collectedBottles = 0; 
-    invincible = false;
     world;
     walking_sound = new Audio('audio/walking.mp3')
     jumping_sound = new Audio('audio/jump.mp3')

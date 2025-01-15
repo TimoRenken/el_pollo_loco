@@ -67,7 +67,7 @@ class Endboss extends MovableObject {
     animate() {
         let i = 0;
 
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (world.character.x > 3600 && !world.character.hadFirstContact) { // Checks if character is near the endboss
                 world.character.hadFirstContact = true;
             }

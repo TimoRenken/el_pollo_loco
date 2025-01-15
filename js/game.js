@@ -2,11 +2,32 @@ let canvas;
 let world;
 let keyboard = new Keyboard(); 
 
+let intervalIds = [];
+
+/**
+ * This wrapper function is used to save the id from a interval.
+ * Id is the id of the interval.
+ * @param {*} fn  // function to be called
+ * @param {*} time // time interval
+ */
+function setStoppableInterval(fn, time){
+    let id = setInterval(fn, time);
+    intervalIds.push(id);
+}
+
 function startGame(){
     document.getElementById('overlay').style.display = 'none';
     initLevel();
     init();
 }
+
+/**
+ * This function stops the game.
+ */
+function stopGame(){
+    intervalIds.forEach(clearInterval)
+}
+
 
 function init(){
 canvas = document.getElementById('canvas');
