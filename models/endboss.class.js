@@ -68,6 +68,7 @@ class Endboss extends MovableObject {
         let i = 0;
 
         setStoppableInterval(() => {
+            if(!isPaused) {
             if (world.character.x > 3600 && !world.character.hadFirstContact) { // Checks if character is near the endboss
                 world.character.hadFirstContact = true;
             }
@@ -87,6 +88,7 @@ class Endboss extends MovableObject {
                     this.bossMoves();
                 }
             }
+        }
         }, 225);
     }
 

@@ -4,7 +4,7 @@ class Character extends MovableObject {
     y = 280;
     speed = 5;
     collectedCoins = 0;
-    collectedBottles = 0; 
+    collectedBottles = 110; // needs to be reset
     world;
     walking_sound = new Audio('audio/walking.mp3')
     jumping_sound = new Audio('audio/jump.mp3')
@@ -94,42 +94,46 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => {
-            this.walking_sound.pause();
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-                this.otherDirection = false;
-                if (!this.isAboveGround()) this.walking_sound.play(); // stops walkingsound while jumping
+            if (!isPaused) {
+                this.walking_sound.pause();
+                if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                    this.moveRight();
+                    this.otherDirection = false;
+                    if (!this.isAboveGround()) this.walking_sound.play(); // stops walkingsound while jumping
+                }
+                if (this.world.keyboard.LEFT && this.x > 0) {
+                    this.moveLeft();
+                    this.otherDirection = true;
+                    if (!this.isAboveGround()) this.walking_sound.play();  // stops walkingsound while jumping
+                }
+                if (this.world.keyboard.SPACE && !this.isAboveGround()) { // does not allow jumping while in the air.
+                    this.jump();
+                    this.jumping_sound.play();
+                }
+                // Calculate camera_x to center the character but limit it to 4200 px
+                let cameraOffset = Math.min(Math.max(-this.x + 200, -(4200 - this.world.canvas.width)), 0);
+                this.world.camera_x = cameraOffset;
             }
-            if (this.world.keyboard.LEFT && this.x > 0) {
-                this.moveLeft();
-                this.otherDirection = true;
-                if (!this.isAboveGround()) this.walking_sound.play();  // stops walkingsound while jumping
-            }
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) { // does not allow jumping while in the air.
-                this.jump();
-                this.jumping_sound.play();
-            } 
-            // Calculate camera_x to center the character but limit it to 4200 px
-            let cameraOffset = Math.min(Math.max(-this.x + 200, -(4200 - this.world.canvas.width)), 0);  
-            this.world.camera_x = cameraOffset;
         }, 1000 / 60);
 
         setInterval(() => {
-            if (this.isDead() && !this.deadAnimationPlayed) {
-                this.deadAnimation();
-            } else if (this.isHurt()) {
-                this.hurtAnimation();
-            }
-            else if (this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMPING);
-            } else {
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimation(this.IMAGES_WALKING);
+            if (!isPaused) {
+                if (this.isDead() && !this.deadAnimationPlayed) {
+                    this.deadAnimation();
+                } else if (this.isHurt()) {
+                    this.hurtAnimation();
+                }
+                else if (this.isAboveGround()) {
+                    this.playAnimation(this.IMAGES_JUMPING);
+                } else {
+                    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                        this.playAnimation(this.IMAGES_WALKING);
+                    }
                 }
             }
         }, 50);
 
-        setInterval(() => {
+        setStoppableInterval(() => {
             let now = new Date().getTime(); // current time
 
             if (this.isStanding()) {
@@ -159,12 +163,12 @@ class Character extends MovableObject {
      */
     hurtAnimation() {
         this.playAnimation(this.IMAGES_HURT);
-        if(!this.hurtSoundPlayed){
-        this.hurt_sound.play();
-        this.hurtSoundPlayed = true;
-        setTimeout(() => {
-            this.hurtSoundPlayed = false;   
-        }, 2000);
+        if (!this.hurtSoundPlayed) {
+            this.hurt_sound.play();
+            this.hurtSoundPlayed = true;
+            setTimeout(() => {
+                this.hurtSoundPlayed = false;
+            }, 2000);
         }
     }
 
@@ -172,7 +176,7 @@ class Character extends MovableObject {
      * this function is called when the character is dead
      * it plays the dead animation and sets the deadAnimationPlayed flag to true
      */
-    deadAnimation(){
+    deadAnimation() {
         this.playAnimation(this.IMAGES_DEAD);
         setTimeout(() => {
             this.deadAnimationPlayed = true;

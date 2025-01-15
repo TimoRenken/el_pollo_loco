@@ -1,5 +1,5 @@
 class SmallChicken extends MovableObject {
-    y = 390 ;
+    y = 390;
     height = 35;
     width = 40;
     HP = 5;
@@ -34,19 +34,23 @@ class SmallChicken extends MovableObject {
 
     animate() {
         const move = setInterval(() => {
-            this.moveLeft();
+            if (!isPaused) {
+                this.moveLeft();
+            }
         }, 1000 / 60);
 
         setInterval(() => {
-            if (this.isDead()) { // checks if HP is <= 0
-                if (!this.soundPlayed) {
-                    this.chick_died_sound.play(); // Play sound only once
-                    this.soundPlayed = true; // Mark sound as played
+            if (!isPaused) {
+                if (this.isDead()) { // checks if HP is <= 0
+                    if (!this.soundPlayed) {
+                        this.chick_died_sound.play(); // Play sound only once
+                        this.soundPlayed = true; // Mark sound as played
+                    }
+                    this.loadImage(this.IMAGE_DEAD);
+                    clearInterval(move); // stops chicken walking
+                } else {
+                    this.playAnimation(this.IMAGES_WALKING);
                 }
-                this.loadImage(this.IMAGE_DEAD);
-                clearInterval(move); // stops chicken walking
-            } else {
-                this.playAnimation(this.IMAGES_WALKING);
             }
         }, 200);
     }

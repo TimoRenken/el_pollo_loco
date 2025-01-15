@@ -84,18 +84,22 @@ class World {
         this.addToMap(this.healthBar);
         this.addToMap(this.coinBar);
         this.addToMap(this.bottleBar);
-        if(this.character.hadFirstContact){
+        if (this.character.hadFirstContact) {
             this.addToMap(this.endbossBar);
         }
     }
 
     run() {
         setInterval(() => {
-            this.checkCollisions();
-            this.checkCollection();
+            if (!isPaused) {
+                this.checkCollisions();
+                this.checkCollection();
+            }
         }, 10)
         setInterval(() => {
-            this.checkThrowObjects();
+            if (!isPaused) {
+                this.checkThrowObjects();
+            }
         }, 150)
     }
 
@@ -229,7 +233,7 @@ class World {
         const newBottles = positions.map(x => new Bottle(x, 350)); // create new bottles at fixed positions
         this.level.collectableObjects.push(...newBottles); // add new bottles to collectable objects
     }
-    
+
 
 
 }

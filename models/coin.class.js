@@ -1,4 +1,4 @@
-class Coin extends MovableObject{
+class Coin extends MovableObject {
     y = 340;
     height = 100;
     width = 100;
@@ -10,14 +10,14 @@ class Coin extends MovableObject{
         left: 30
     };
 
-    collect_coin = new Audio ('audio/coin.mp3')
+    collect_coin = new Audio('audio/coin.mp3')
 
     IMAGES = [
         'img/8_coin/coin_1.png',
         'img/8_coin/coin_2.png'
     ]
 
-    constructor(){
+    constructor() {
         super().loadImage('img/8_coin/coin_1.png');
         this.loadImages(this.IMAGES);
         this.x = 100 + Math.random() * 3500;
@@ -25,9 +25,11 @@ class Coin extends MovableObject{
         this.animate();
     }
 
-    animate(){
-        setInterval(()=>{
-            this.playAnimation(this.IMAGES);
+    animate() {
+        setInterval(() => {
+            if (!isPaused) {
+                this.playAnimation(this.IMAGES);
+            }
         }, 300);
     }
 }
