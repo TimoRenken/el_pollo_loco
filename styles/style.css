@@ -28,6 +28,11 @@ h1 {
     text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
     position: absolute;
     top: 0;
+    user-select: none;
+}
+
+span{
+    cursor: pointer;
 }
 
 #overlay{
@@ -59,9 +64,9 @@ h1 {
     font-size: 32px;
     color: rgb(255, 219, 0);
     filter: drop-shadow(5px 5px 5px #222);
-    cursor: pointer;
     top: 16px;
     gap: 32px;
+    user-select: none;
 }
 
 #start_screen{
@@ -78,8 +83,8 @@ h1 {
     font-size: 32px;
     color: rgb(255, 219, 0);
     filter: drop-shadow(5px 5px 5px #222);
-    cursor: pointer;
     letter-spacing: 2px;
+    user-select: none;
 }
 
 span:hover{
