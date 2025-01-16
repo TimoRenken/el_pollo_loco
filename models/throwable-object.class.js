@@ -1,8 +1,5 @@
 class ThrowableObject extends MovableObject {
 
-    throwing_sound = new Audio('audio/throw.mp3')
-    broken_glas = new Audio('audio/glassShatter.mp3')
-
     IMAGES_BOTTLE_ROTATION = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -36,8 +33,19 @@ class ThrowableObject extends MovableObject {
         this.height = 80;
         this.width = 70;
         this.throwDirection = world.character.otherDirection ? -1 : 1;  // Set flight direction based on character direction
+        // this.pushSounds();
         this.throw();
     }
+
+    // pushSounds() {
+    //     if (!sounds.some(sound => sound.src === this.throwing_sound.src)) {
+    //         sounds.push(this.throwing_sound);
+    //     }
+    //     if (!sounds.some(sound => sound.src === this.broken_glas.src)) {
+    //         sounds.push(this.broken_glas);
+    //     }
+    // }
+    
 
     /**
      * changes coordinates to animate a throwing bottle
@@ -45,7 +53,6 @@ class ThrowableObject extends MovableObject {
         throw() {
         this.speedY = 30;
         this.applyGravity();
-        this.throwing_sound.play();
         this.movementInterval = setInterval(() => {
             this.x += this.throwDirection * 8; 
         }, 25);
@@ -59,7 +66,7 @@ class ThrowableObject extends MovableObject {
         this.speedY = 0; 
         this.speed = 0;
         this.playAnimationOnce(this.IMAGES_BOTTLE_SPLASH);
-        this.broken_glas.play();
+        
     }
 
     animate() {

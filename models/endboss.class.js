@@ -61,8 +61,14 @@ class Endboss extends MovableObject {
         this.x = 4000; // 4000
         this.animate();
         this.applyGravity();
+        this.pushSounds();
 
     }
+
+    pushSounds(){
+        sounds.push(this.hurt_sound);
+     }
+ 
 
     animate() {
         let i = 0;

@@ -2,7 +2,9 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let intervalIds = [];
+let sounds = [];
 isPaused = false;
+isMuted = false;
 
 /**
  * This wrapper function is used to save the id from a interval.
@@ -38,6 +40,16 @@ function pauseGame() {
         isPaused = false;
     } else {
         isPaused = true;
+    }
+}
+
+function toggleMute() {
+    if(!isMuted) {
+        sounds.forEach(sound => sound.muted = true);
+        isMuted = true;
+    } else {
+        sounds.forEach(sound => sound.muted = false);
+        isMuted = false;
     }
 }
 

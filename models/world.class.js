@@ -14,6 +14,9 @@ class World {
     coin = new Coin();
     bottle = new Bottle();
 
+    throwing_sound = new Audio('audio/throw.mp3')
+    broken_glas = new Audio('audio/glassShatter.mp3')
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -21,6 +24,12 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.pushSounds();
+    }
+
+    pushSounds() {
+        sounds.push(this.throwing_sound);
+        sounds.push(this.broken_glas);
     }
 
     setWorld() {
@@ -139,6 +148,7 @@ class World {
                 if (throwableObject.isColliding(enemy) && !throwableObject.isBroken) {
                     throwableObject.isBroken = true;
                     throwableObject.splash();
+                    this.broken_glas.play();
                     this.hitWithBottle(enemy);
                 }
             });
@@ -188,6 +198,7 @@ class World {
             this.character.collectedBottles--;
             this.bottleBar.percentage -= 20; // sets percentage to choose the right image at the statusbar
             this.bottleBar.setPercentage(this.character.collectedBottles); // reduces the amount of bottles in the status bar
+            this.throwing_sound.play();
         }
     }
 

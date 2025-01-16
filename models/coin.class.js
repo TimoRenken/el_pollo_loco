@@ -23,6 +23,7 @@ class Coin extends MovableObject {
         this.x = 100 + Math.random() * 3500;
         this.y = 140 + Math.random() * (340 - 140);
         this.animate();
+        sounds.push(this.collect_coin);
     }
 
     animate() {

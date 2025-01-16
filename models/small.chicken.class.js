@@ -30,6 +30,7 @@ class SmallChicken extends MovableObject {
         this.x = 200 + Math.random() * 3500;
         this.speed = 0.15 + Math.random() * 0.25;
         this.animate();
+        sounds.push(this.chick_died_sound);
     }
 
     animate() {
