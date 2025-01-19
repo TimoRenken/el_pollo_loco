@@ -36,23 +36,27 @@ function stopGame() {
  * This function pauses the game.
  */
 function pauseGame() {
+    pauseIcon = document.getElementById('toggle_pause');
+
     if (isPaused) {
         isPaused = false;
+        pauseIcon.innerHTML = "pause";
     } else {
         isPaused = true;
+        pauseIcon.innerHTML = "play_arrow";
     }
 }
 
 function toggleMute() {
-    icon = document.getElementById('toggle_sound');
+    soundIcon = document.getElementById('toggle_sound');
 
     if(!isMuted) {
-        icon.innerHTML = "volume_off";
+        soundIcon.innerHTML = "volume_off";
         sounds.forEach(sound => sound.muted = true);
         isMuted = true;
 
     } else {
-        icon.innerHTML = "volume_up";
+        soundIcon.innerHTML = "volume_up";
         sounds.forEach(sound => sound.muted = false);
         isMuted = false;
     }
