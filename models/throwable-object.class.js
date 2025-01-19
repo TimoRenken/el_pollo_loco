@@ -33,20 +33,9 @@ class ThrowableObject extends MovableObject {
         this.height = 80;
         this.width = 70;
         this.throwDirection = world.character.otherDirection ? -1 : 1;  // Set flight direction based on character direction
-        // this.pushSounds();
         this.throw();
     }
-
-    // pushSounds() {
-    //     if (!sounds.some(sound => sound.src === this.throwing_sound.src)) {
-    //         sounds.push(this.throwing_sound);
-    //     }
-    //     if (!sounds.some(sound => sound.src === this.broken_glas.src)) {
-    //         sounds.push(this.broken_glas);
-    //     }
-    // }
     
-
     /**
      * changes coordinates to animate a throwing bottle
      */

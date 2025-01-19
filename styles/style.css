@@ -1,9 +1,10 @@
 @font-face {
     font-family: 'kablammo';
-    src: url('/fonts/kablammo.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
-}  
+    src: url('/fonts/kablammo.ttf') format('truetype');
+    /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}
 
-body{
+body {
     height: 100vh;
     overflow: hidden;
     display: flex;
@@ -12,11 +13,15 @@ body{
     justify-content: center;
     background-image: url('/img/5_background/desert_background.jpeg');
     background-size: cover;
-    background-position:center ;
+    background-position: center;
     font-family: 'kablammo', Arial, Helvetica, sans-serif;
 }
 
-canvas{
+#content{
+    position: relative;
+}
+
+canvas {
     background-color: black;
     display: block;
     border-radius: 16px;
@@ -25,28 +30,32 @@ canvas{
 h1 {
     font-size: 64px;
     letter-spacing: 3px;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
     position: absolute;
     top: 0;
     user-select: none;
 }
 
-span{
+span {
     cursor: pointer;
 }
 
-#overlay{
+#overlay {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: absolute;
+    height: 100%;
+    max-width: 720px;
+    max-height: 480px;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 2;
     border-radius: 16px;
+
 }
 
-#ingame_menu{
+#ingame_menu {
     display: flex;
     position: absolute;
     flex-direction: column;
@@ -54,11 +63,12 @@ span{
     justify-content: center;
     z-index: 1;
     height: 480px;
-    width: 720px;
+    width: 100%;    
+    max-width: 720px;
     border-radius: 16px;
 }
 
-.ingame_icon{
+.ingame_icon {
     display: flex;
     position: absolute;
     font-size: 32px;
@@ -69,13 +79,14 @@ span{
     user-select: none;
 }
 
-#start_screen{
-    height: 480px;
-    width: 720px;
+#start_screen {
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
     border-radius: 16px;
 }
 
-.button_bar{
+.button_bar {
     display: flex;
     position: absolute;
     top: 32px;
@@ -87,21 +98,22 @@ span{
     user-select: none;
 }
 
-span:hover{
+span:hover {
     transform: scale(1.1);
 }
 
 @media only screen and (max-width: 720px) {
-    canvas{
+    canvas {
         width: 100%;
     }
 }
 
 @media only screen and (max-height: 480px) {
-    canvas{
+    canvas {
         height: 100vh;
     }
-    h1{
-        display:none;
+
+    h1 {
+        display: none;
     }
 }

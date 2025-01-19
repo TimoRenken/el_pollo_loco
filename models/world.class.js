@@ -244,7 +244,4 @@ class World {
         const newBottles = positions.map(x => new Bottle(x, 350)); // create new bottles at fixed positions
         this.level.collectableObjects.push(...newBottles); // add new bottles to collectable objects
     }
-
-
-
 }
