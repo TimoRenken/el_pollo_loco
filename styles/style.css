@@ -52,7 +52,6 @@ span {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 2;
     border-radius: 16px;
-
 }
 
 #ingame_menu {
@@ -68,7 +67,7 @@ span {
     border-radius: 16px;
 }
 
-.ingame_icon {
+.ingame-icon {
     display: flex;
     position: absolute;
     font-size: 32px;
@@ -86,7 +85,7 @@ span {
     border-radius: 16px;
 }
 
-.button_bar {
+.button-bar {
     display: flex;
     position: absolute;
     top: 32px;
@@ -112,7 +111,7 @@ span:hover {
     canvas {
         height: 100vh;
     }
-
+    
     h1 {
         display: none;
     }
