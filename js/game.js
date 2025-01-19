@@ -44,10 +44,15 @@ function pauseGame() {
 }
 
 function toggleMute() {
+    icon = document.getElementById('toggle_sound');
+
     if(!isMuted) {
+        icon.innerHTML = "volume_off";
         sounds.forEach(sound => sound.muted = true);
         isMuted = true;
+
     } else {
+        icon.innerHTML = "volume_up";
         sounds.forEach(sound => sound.muted = false);
         isMuted = false;
     }
