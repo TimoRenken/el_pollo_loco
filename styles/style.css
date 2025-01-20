@@ -97,6 +97,20 @@ span {
     user-select: none;
 }
 
+.panel-wrapper{
+    display: flex;
+    gap: 16px;
+}
+
+.mobile_controls{
+    display: flex;
+    font-size: 32px;
+    bottom: 112px;
+    position: absolute;
+    justify-content: space-between;
+    width: 80%;
+}
+
 span:hover {
     transform: scale(1.1);
 }
@@ -108,11 +122,19 @@ span:hover {
 }
 
 @media only screen and (max-height: 480px) {
+    body{
+        margin: 0;
+    }
     canvas {
         height: 100vh;
+        border-radius: 0;
     }
-    
     h1 {
         display: none;
+    }
+     #content{
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 }
