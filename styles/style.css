@@ -61,7 +61,8 @@ span {
     align-items: center;
     justify-content: center;
     z-index: 1;
-    height: 480px;
+    height: 100vh;
+    max-height: 480px;
     width: 100%;    
     max-width: 720px;
     border-radius: 16px;
@@ -103,12 +104,12 @@ span {
 }
 
 .mobile_controls{
-    display: flex;
+    display: none;
     font-size: 32px;
-    bottom: 112px;
+    bottom: 0;
     position: absolute;
     justify-content: space-between;
-    width: 80%;
+    width: 75%;
 }
 
 span:hover {
@@ -136,5 +137,11 @@ span:hover {
         width: 100%;
         display: flex;
         justify-content: center;
+    }
+    #start_screen {
+        border-radius: 0;
+    }
+    .mobile_controls{
+        display: flex
     }
 }
