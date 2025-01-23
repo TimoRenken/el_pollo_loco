@@ -13,7 +13,6 @@ class World {
     collectableObject = new CollectableObjects();
     coin = new Coin();
     bottle = new Bottle();
-
     throwing_sound = new Audio('audio/throw.mp3')
     broken_glas = new Audio('audio/glassShatter.mp3')
 
@@ -66,6 +65,10 @@ class World {
         });
     }
 
+    /**
+     *  This function is used to add objects to the map
+     * @param {*} mo 
+     */
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
@@ -77,6 +80,10 @@ class World {
         }
     }
 
+    /**
+     *  This function is used to flip the image of the object
+     * @param {*} mo = MovableObject
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -84,16 +91,23 @@ class World {
         mo.x = mo.x * -1;
     }
 
+    /**
+     *  This function is used to flip the image back to the original direction
+     * @param {*} mo 
+     */
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
 
+    /**
+     * This function is used to add the statusbars to the game.
+     */
     addStatusBars() {
         this.addToMap(this.healthBar);
         this.addToMap(this.coinBar);
         this.addToMap(this.bottleBar);
-        if (this.character.hadFirstContact) {
+        if (this.character.hadFirstContact) {   // Shows the endboss statusbar after first contact with the endboss
             this.addToMap(this.endbossBar);
         }
     }
@@ -118,11 +132,11 @@ class World {
     checkCollisions() {
         this.checkCollisionWithEnemy();
         this.checkBottleCollisionWithEnemy();
+        this.checkBottleCollisionWithGround();
     }
 
-
-    /** This Function is used to check if the character is colliding with an enemy.
-     * 
+    /** 
+     * This Function is used to check if the character is colliding with an enemy.
      */
     checkCollisionWithEnemy() {
         this.level.enemies.forEach((enemy) => {
@@ -146,35 +160,22 @@ class World {
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((throwableObject) => {
                 if (throwableObject.isColliding(enemy) && !throwableObject.isBroken) {
-                    throwableObject.isBroken = true;
+                    throwableObject.isBroken = true; // Prevents multiple hits
                     throwableObject.splash();
                     this.broken_glas.play();
                     this.hitWithBottle(enemy);
+                    setTimeout(() => {
+                        this.removeBottle(throwableObject); // Removes the bottle after the hit
+                    }, 300)
                 }
             });
         });
     }
 
     /**
-     * Deals damage to an enemy. 
-     * When the hitted enemy is a normal or small chicken, it will be deleted after a short killanmiation.
-     * @param {*} enemy this is the generated enemy.
-     */
-    killEnemy(enemy) {
-        enemy.hit() // reduce enemies live by 20 HP per hit.
-        if (enemy instanceof Chicken || enemy instanceof SmallChicken) { // short killanimation
-            setTimeout(() => {
-                this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
-            }, 400)
-        } else {
-            this.endbossBar.setPercentage(enemy.HP); // reduce live from the endboss statusbar
-        }
-    }
-
-    /**
-     * This function deals damage to an enemy which is hitten by a flying bottle.
-     * @param {*} enemy this is the generated enemy.
-     */
+    * This function deals damage to an enemy which is hitten by a flying bottle.
+    * @param {*} enemy this is the generated enemy.
+    */
     hitWithBottle(enemy) {
         enemy.hit() // reduce enemies live by 20 HP per hit.
         if (enemy instanceof Endboss) {
@@ -185,11 +186,63 @@ class World {
     }
 
     /**
+     * This function checks if a bottle is colliding with the ground and splashes the bottle.
+     */
+    checkBottleCollisionWithGround() {
+        this.throwableObjects.forEach((throwableObject) => {
+            if (throwableObject.y > 360 && !throwableObject.isSplashing) { // Checks if bottle hits on the ground
+                throwableObject.splash();
+                this.broken_glas.play();
+                setTimeout(() => {
+                    this.removeBottle(throwableObject);  // Removes the bottle after the hit       
+                }, 300)
+            }
+        });
+    }
+
+    /**
+     * 
+     * @returns true if a bottle is still flying or splashing
+     */
+    isBottleActive() {
+        return this.throwableObjects.some(
+            (bottle) => !bottle.isBroken || bottle.isSplashing
+        );
+    }
+
+    /**
+     * This function is used to remove a bottle from the throwableObjects array
+     * @param {*} bottle 
+     */
+    removeBottle(bottle) {
+        const index = this.throwableObjects.indexOf(bottle);
+        if (index > -1) {
+            this.throwableObjects.splice(index, 1);
+        }
+    }
+
+    /**
+     * Deals damage to an enemy. 
+     * When the hitted enemy is a normal or small chicken, it will be deleted after a short killanmiation.
+     * @param {*} enemy this is the generated enemy.
+     */
+    killEnemy(enemy) {
+        enemy.hit() // reduce enemies live by 20 HP per hit.
+        if (enemy instanceof Chicken || enemy instanceof SmallChicken) { // used for a short killanimation
+            setTimeout(() => {
+                this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
+            }, 400)
+        } else {
+            this.endbossBar.setPercentage(enemy.HP); // reduce live from the endboss statusbar
+        }
+    }
+
+
+    /**
      * This function is used to check if its possible to throw a bottle.
      */
-
     checkThrowObjects() {
-        if (this.keyboard.D && this.character.collectedBottles > 0) {
+        if (this.keyboard.D && this.character.collectedBottles > 0 && !this.isBottleActive()) {
             let xOffset = 50;
             if (this.character.otherDirection) xOffset = -30; // sets the correct start point on the x axis when otherDirection is true.
 
@@ -212,7 +265,7 @@ class World {
             }
         });
 
-        // check if all bottles are collected and spawn new bottles
+        // checks if all bottles are collected and spawn new bottles after first contact with the endboss
         const remainingBottles = this.level.collectableObjects.filter(obj => obj instanceof Bottle);
         if (remainingBottles.length === 0 && this.character.hadFirstContact) {
             this.spawnNewBottles();
@@ -239,6 +292,9 @@ class World {
         }
     }
 
+    /**
+     * This function is used to spawn new bottles after all bottles are collected
+     */
     spawnNewBottles() {
         const positions = [2700, 2900, 3100, 3300, 3500]; // fixed positions for new bottles
         const newBottles = positions.map(x => new Bottle(x, 350)); // create new bottles at fixed positions
