@@ -49,17 +49,15 @@ class ThrowableObject extends MovableObject {
     }
 
     splash() {
-        if(this.isSplashing) return; // Prevents multiple splash animations
-        this.isSplashing = true;
+        if(this.isSplashing) return; // Prevents multiple bottle throws.
+        this.isSplashing = true;        
 
         clearInterval(this.movementInterval); // Stops the X-axis movement
         clearInterval(this.rotationInterval); // Stops the rotation
         
         this.speedY = 0; 
         this.speed = 0;
-        this.playAnimationOnce(this.IMAGES_BOTTLE_SPLASH), () =>{
-            this.isSplashing = false; // Resets the flag after the animation
-        };
+        this.playAnimationOnce(this.IMAGES_BOTTLE_SPLASH);
     }
 
     animate() {
