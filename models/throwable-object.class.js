@@ -49,7 +49,7 @@ class ThrowableObject extends MovableObject {
     }
 
     splash() {
-        if(this.isSplashing) return; // Prevents multiple bottle throws.
+        if(this.isSplashing) return; // Prevents multiple splash animations
         this.isSplashing = true;        
 
         clearInterval(this.movementInterval); // Stops the X-axis movement

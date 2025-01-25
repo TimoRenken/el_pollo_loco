@@ -13,6 +13,7 @@ class World {
     collectableObject = new CollectableObjects();
     coin = new Coin();
     bottle = new Bottle();
+    lastThrowTime = 0;
     throwing_sound = new Audio('audio/throw.mp3')
     broken_glas = new Audio('audio/glassShatter.mp3')
 
@@ -242,7 +243,9 @@ class World {
      * This function is used to check if its possible to throw a bottle.
      */
     checkThrowObjects() {
-        if (this.keyboard.D && this.character.collectedBottles > 0 && !this.isBottleActive()) {
+        const currentThrowTime = new Date().getTime();
+        if (this.keyboard.D && this.character.collectedBottles > 0 && !this.isBottleActive() && currentThrowTime - this.lastThrowTime >= 1000) {
+            this.lastThrowTime = currentThrowTime; // sets the last throw time to the current time
             let xOffset = 50;
             if (this.character.otherDirection) xOffset = -30; // sets the correct start point on the x axis when otherDirection is true.
 
