@@ -241,11 +241,13 @@ class World {
 
     /**
      * This function is used to check if its possible to throw a bottle.
-     */
+     * it is just possible to throw one bottle at a time.
+     * to prevent killing the endboss very fast with bottles, the last throw time is saved and the player has to wait 1 secound to throw a new bottle.
+     */ 
     checkThrowObjects() {
         const currentThrowTime = new Date().getTime();
-        if (this.keyboard.D && this.character.collectedBottles > 0 && !this.isBottleActive() && currentThrowTime - this.lastThrowTime >= 1000) {
-            this.lastThrowTime = currentThrowTime; // sets the last throw time to the current time
+        if (this.keyboard.D && this.character.collectedBottles > 0 && !this.isBottleActive() && currentThrowTime - this.lastThrowTime >= 1000) { // checks if the key D is pressed and the last throw time is more than 1 secound ago and there is no bottle flying
+            this.lastThrowTime = currentThrowTime; // sets the last throw time to the current time 
             let xOffset = 50;
             if (this.character.otherDirection) xOffset = -30; // sets the correct start point on the x axis when otherDirection is true.
 

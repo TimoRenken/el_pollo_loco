@@ -11,14 +11,25 @@ class MovableObject extends DrawableObject {
      * This function is used to add gravity to objects.
      */
     applyGravity() {
-        setInterval(() => {
-            if (this.isAboveGround() || this.speedY > 0) {
-                this.y -= this.speedY;
-                this.speedY -= this.accerleration;
-            } else {
-                this.speedY = 0; // Resets speedY after reaching the ground.
+        this.gravityInterval = setInterval(() => {
+            if (!isPaused) { // Apply gravity only if the game is not paused
+                if (this.isAboveGround() || this.speedY > 0) {
+                    this.y -= this.speedY;
+                    this.speedY -= this.accerleration;
+                } else {
+                    this.speedY = 0; // Resets speedY after reaching the ground.
+                }
             }
         }, 1000 / 30);
+    }
+
+    /**
+    * Stops the gravity interval.
+    */
+    stopGravity() {
+        if (this.gravityInterval) {
+            clearInterval(this.gravityInterval);
+        }
     }
 
     /**
@@ -38,7 +49,7 @@ class MovableObject extends DrawableObject {
             return true;
         }
     }
-    
+
 
     isColliding(mo, attackRange = false) {
         let horizontalOverlap =

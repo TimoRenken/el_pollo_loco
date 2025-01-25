@@ -41,9 +41,12 @@ function pauseGame() {
     if (isPaused) {
         isPaused = false;
         pauseIcon.innerHTML = "pause";
+        world.character.applyGravity(); // Resume gravity
     } else {
         isPaused = true;
         pauseIcon.innerHTML = "play_arrow";
+        world.character.stopGravity(); // Stop gravity
+
     }
 }
 
