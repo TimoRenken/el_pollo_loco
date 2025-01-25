@@ -14,7 +14,7 @@ isMuted = false;
  */
 function setStoppableInterval(fn, time) {
     let id = setInterval(() => {
-        if (!isPaused) fn(); // Nur ausführen, wenn nicht pausiert
+        if (!isPaused) fn(); // Call function only if game is not paused
     }, time);
     intervalIds.push(id);
 }

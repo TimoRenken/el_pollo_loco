@@ -43,7 +43,9 @@ class ThrowableObject extends MovableObject {
         this.speedY = 30;
         this.applyGravity();
         this.movementInterval = setInterval(() => {
+            if(!isPaused){  // Move only if the game is not paused
             this.x += this.throwDirection * 8; 
+            }
         }, 25);
         this.animate();
     }
@@ -62,7 +64,9 @@ class ThrowableObject extends MovableObject {
 
     animate() {
         this.rotationInterval = setInterval(() => {
+            if(!isPaused){  // Rotate only if the game is not paused
             this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
+            }
         }, 75);
 
     }
