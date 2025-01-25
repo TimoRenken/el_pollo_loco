@@ -20,7 +20,7 @@ function setStoppableInterval(fn, time) {
 }
 
 function startGame() {
-    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('start_screen').style.display = 'none';
     initLevel();
     init();
 }
