@@ -127,6 +127,7 @@ class Character extends MovableObject {
             if (!isPaused) {
                 if (this.isDead() && !this.deadAnimationPlayed) {
                     this.deadAnimation();
+                    setTimeout(() => loseGame(), 1000); 
                 } else if (this.isHurt()) {
                     this.hurtAnimation();
                 }

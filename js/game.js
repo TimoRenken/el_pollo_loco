@@ -46,8 +46,12 @@ function pauseGame() {
         isPaused = true;
         pauseIcon.innerHTML = "play_arrow";
         world.character.stopGravity(); // Stop gravity
-
     }
+}
+
+function loseGame() {
+    isPaused = true;
+    document.getElementById('lose_screen').style.display = "flex";
 }
 
 function toggleMute() {
