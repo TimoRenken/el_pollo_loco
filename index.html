@@ -53,7 +53,7 @@
             </div>
             <div class="mobile_controls">
                 <div class="panel-wrapper">
-                    <div id="btn_left"> 
+                    <div id="btn_left">
                         <span class="material-symbols-outlined">arrow_circle_left</span>
                     </div>
                     <div id="btn_right">
@@ -70,19 +70,26 @@
                 </div>
             </div>
         </div>
-         <div class="turn_device">
-            <p class="material-symbols-outlined font_80" >screen_rotation</p>
+        <div class="turn_device">
+            <p class="material-symbols-outlined font_80">screen_rotation</p>
             <p class="turn_device_text">Please turn your device to play</p>
         </div>
-        <div  id="lose_screen" class="overlay">
+        <div id="lose_screen" class="overlay">
             <div class="button-bar">
                 <span onclick="newGame()">New Game</span>
                 <span onclick="location.reload()">Home</span>
             </div>
             <img class="overlay_image" src="img/9_intro_outro_screens/game_over/game over.png" alt="lose screen">
         </div>
+        <div id="win_screen" class="overlay">
+            <div class="button-bar">
+                <span onclick="newGame()">New Game</span>
+                <span onclick="location.reload()">Home</span>
+            </div>
+            <img class="win_image" src="img/9_intro_outro_screens/win/win_2.png" alt="win screen">
+        </div>
         <canvas id="canvas" width="720px" height="480px"></canvas>
-       
+
     </section>
 
 

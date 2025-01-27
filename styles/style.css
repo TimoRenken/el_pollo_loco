@@ -62,6 +62,14 @@ span {
     display: none;
 }
 
+#win_screen {
+    display: none;
+}
+
+.win_image{
+    overflow: hidden;
+}
+
 #ingame_menu {
     display: flex;
     position: absolute;
