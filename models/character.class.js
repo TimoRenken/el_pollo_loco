@@ -4,7 +4,7 @@ class Character extends MovableObject {
     y = 280;
     speed = 5;
     collectedCoins = 0;
-    collectedBottles = 100;
+    collectedBottles = 0;
     world;
     walking_sound = new Audio('audio/walking.mp3')
     jumping_sound = new Audio('audio/jump.mp3')
@@ -100,7 +100,7 @@ class Character extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (!isPaused) {
                 this.walking_sound.pause();
                 if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -123,7 +123,7 @@ class Character extends MovableObject {
             }
         }, 1000 / 60);
 
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (!isPaused) {
                 if (this.isDead() && !this.deadAnimationPlayed) {
                     this.deadAnimation();

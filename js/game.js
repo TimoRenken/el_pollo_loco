@@ -30,6 +30,7 @@ function startGame() {
  */
 function stopGame() {
     intervalIds.forEach(clearInterval)
+ 
 }
 
 /**
@@ -49,10 +50,24 @@ function pauseGame() {
     }
 }
 
+
 function loseGame() {
     isPaused = true;
     document.getElementById('lose_screen').style.display = "flex";
 }
+
+/**
+ * This function restarts the game.
+ */
+function newGame() {
+    stopGame();    // // Stop all intervals
+    document.getElementById('lose_screen').style.display = "none";
+    isPaused = false;
+    world.character.collectedBottles = 0; // Reset the number of collected bottles
+    initLevel();   // Reinitialize the game
+    init();
+}
+
 
 function toggleMute() {
     soundIcon = document.getElementById('toggle_sound');
