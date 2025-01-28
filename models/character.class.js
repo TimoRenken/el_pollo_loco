@@ -117,8 +117,7 @@ class Character extends MovableObject {
                     this.jump();
                     this.jumping_sound.play();
                 }
-                // Calculate camera_x to center the character but limit it to 4200 px
-                let cameraOffset = Math.min(Math.max(-this.x + 200, -(4200 - this.world.canvas.width)), 0);
+                let cameraOffset = Math.min(Math.max(-this.x + 200, -(4200 - this.world.canvas.width)), 0); // Calculate camera_x to center the character but limit it to 4200 px
                 this.world.camera_x = cameraOffset;
             }
         }, 1000 / 60);
@@ -150,7 +149,7 @@ class Character extends MovableObject {
                 }
                 let timeStanding = now - this.lastStand; // Calculate the time the character has been standing
 
-                if (timeStanding >= 4000) { // change animation after 5 secounds
+                if (timeStanding >= 4000) { // change animation after 4 secounds
                     this.playAnimation(this.IMAGES_LONG_IDLE);
                 } else {
                     this.playAnimation(this.IMAGES_IDLE);
