@@ -82,6 +82,7 @@ class Endboss extends MovableObject {
             if (world.character.hadFirstContact) {
                 if (this.isDead()) {
                     this.playAnimation(this.IMAGES_DEAD);
+                    setTimeout(() => winGame(), 1500); // win game when endboss is dead
                 } else if (i < 7) {
                     this.playAnimation(this.IMAGES_ALERT); // Shows alert animation for the first 7 frames
                     i++;
@@ -110,6 +111,8 @@ class Endboss extends MovableObject {
             this.playAnimation(this.IMAGES_WALKING);
         }
     }
+
+
     
 }
 

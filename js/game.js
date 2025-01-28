@@ -50,10 +50,20 @@ function pauseGame() {
     }
 }
 
-
+/**
+ * this function is called when the character dies.
+ */
 function loseGame() {
-    isPaused = true;
+    stopGame();
     document.getElementById('lose_screen').style.display = "flex";
+}
+
+/**
+ * this function is called when the character wins.
+ */
+function winGame(){
+    stopGame();
+    document.getElementById('win_screen').style.display = "flex";
 }
 
 /**
@@ -62,8 +72,8 @@ function loseGame() {
 function newGame() {
     stopGame();    // // Stop all intervals
     document.getElementById('lose_screen').style.display = "none";
-    isPaused = false;
-    world.character.collectedBottles = 0; // Reset the number of collected bottles
+    document.getElementById('win_screen').style.display = "none";
+    world.character.collectedBottles = 0; // Reset the number of collected bottlesd
     initLevel();   // Reinitialize the game
     init();
 }
