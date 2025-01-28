@@ -11,7 +11,7 @@ class MovableObject extends DrawableObject {
      * This function is used to add gravity to objects.
      */
     applyGravity() {
-        this.gravityInterval = setInterval(() => {
+        this.gravityInterval = setStoppableInterval(() => {
             if (!isPaused) { // Apply gravity only if the game is not paused
                 if (this.isAboveGround() || this.speedY > 0) {
                     this.y -= this.speedY;

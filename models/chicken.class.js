@@ -34,7 +34,7 @@ class Chicken extends MovableObject {
     }
 
     animate() {
-        const move = setInterval(() => {
+        const move = setStoppableInterval(() => {
             if (!isPaused) {
                 this.moveLeft();
             }

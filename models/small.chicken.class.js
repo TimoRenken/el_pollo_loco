@@ -34,13 +34,13 @@ class SmallChicken extends MovableObject {
     }
 
     animate() {
-        const move = setInterval(() => {
+        const move = setStoppableInterval(() => {
             if (!isPaused) {
                 this.moveLeft();
             }
         }, 1000 / 60);
 
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (!isPaused) {
                 if (this.isDead()) { // checks if HP is <= 0
                     if (!this.soundPlayed) {

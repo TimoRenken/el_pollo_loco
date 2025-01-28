@@ -79,7 +79,6 @@ function newGame() {
     checkMute();
 }
 
-
 /**
  * This function toggles the sound.
  */
