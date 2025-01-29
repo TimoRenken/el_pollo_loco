@@ -21,6 +21,7 @@ function setStoppableInterval(fn, time) {
 
 function startGame() {
     document.getElementById('start_screen').style.display = 'none';
+    document.getElementById('game_infos').style.display = "none";
     initLevel();
     init();
 }
@@ -95,6 +96,14 @@ function toggleMute() {
         sounds.forEach(sound => sound.muted = false);
         isMuted = false;
     }
+}
+
+function openGameInfos(){
+    document.getElementById('game_infos').style.display = "flex";
+}
+
+function  closeGameInfos(){
+    document.getElementById('game_infos').style.display = "none";
 }
 
 /**

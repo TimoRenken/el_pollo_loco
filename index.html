@@ -41,7 +41,7 @@
         <div id="start_screen" class="overlay">
             <div class="button-bar">
                 <span onclick="startGame()">Start Game</span>
-                <span>Game Infos</span>
+                <span onclick="openGameInfos()">Game Infos</span>
             </div>
             <img class="overlay_image" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="start screen">
         </div>
@@ -87,6 +87,33 @@
                 <span onclick="location.reload()">Home</span>
             </div>
             <img class="win_image" src="img/9_intro_outro_screens/win/win_2.png" alt="win screen">
+        </div>
+        <div id="game_infos" class="overlay">
+            <div class="button-bar">
+                <span onclick="startGame()">Start Game</span>
+                <span onclick="closeGameInfos()">Close Infos</span>
+            </div>
+            <div class="game_infos_content">
+                <h2>Game Controls</h2>
+                <table>
+                    <tr>
+                        <td>Move Left:</td>
+                        <td>Left Arrow</td>
+                    </tr>
+                    <tr>
+                        <td>Move Right:</td>
+                        <td>Right Arrow</td>
+                    </tr>
+                    <tr>
+                        <td>Jump:</td>
+                        <td>Space</td>
+                    <tr>
+                        <td>Throw Bottle:</td>
+                        <td>D</td>
+                    </tr>
+                </table>
+            </div>
+
         </div>
         <canvas id="canvas" width="720px" height="480px"></canvas>
 
