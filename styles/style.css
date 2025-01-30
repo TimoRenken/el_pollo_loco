@@ -28,6 +28,8 @@ canvas {
 }
 
 h1 {
+    color: rgb(255, 219, 0);
+    filter: drop-shadow(5px 5px 5px #222);
     font-size: 64px;
     letter-spacing: 3px;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
