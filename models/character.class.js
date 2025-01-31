@@ -101,7 +101,7 @@ class Character extends MovableObject {
 
     animate() {
         setStoppableInterval(() => {
-            if (!isPaused) {
+            if (!isPaused && !this.isDead()) {
                 this.walking_sound.pause();
                 if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                     this.moveRight();
