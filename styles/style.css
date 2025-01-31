@@ -42,7 +42,7 @@ span {
     cursor: pointer;
 }
 
-.font_80 {
+.font-80 {
     font-size: 80px;
 }
 
@@ -69,7 +69,7 @@ span {
     display: none;
 }
 
-.win_image{
+.win-image{
     overflow: hidden;
 }
 
@@ -97,7 +97,7 @@ span {
     gap: 32px;
     user-select: none;
 }
-.overlay_image {
+.overlay-image {
     height: 100%;
     width: 100%;
     object-fit: fill;
@@ -121,7 +121,7 @@ span {
     gap: 16px;
 }
 
-.mobile_controls {
+.mobile-controls {
     display: none;
     font-size: 32px;
     bottom: 0;
@@ -130,7 +130,7 @@ span {
     width: 75%;
 }
 
-.turn_device {
+.turn-device {
     display: none;
     flex-direction: column;
     align-items: center;
@@ -140,7 +140,7 @@ span {
     z-index: 10;
 }
 
-.turn_device_text{
+.turn-device-text{
     font-size: 32px;
 }
 
@@ -155,7 +155,7 @@ span:hover {
     user-select: none;
 }
 
-.game_infos_content{
+.game-infos-content{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -180,7 +180,7 @@ h2{
 }
 
 @media only screen and (max-width: 650px) {
-    .turn_device{
+    .turn-device{
         display:flex
     }
     .overlay{
@@ -198,7 +198,7 @@ h2{
     h1{
         font-size: 48px;
     }
-    .turn_device_text{
+    .turn-device-text{
         font-size: 24px;
     }
 }
@@ -207,7 +207,7 @@ h2{
     h1{
         font-size: 32px;
     }
-    .turn_device_text{
+    .turn-device-text{
         font-size: 16px;
     }
 }
@@ -232,11 +232,11 @@ h2{
         justify-content: center;
     }
 
-    .overlay_image {
+    .overlay-image {
         border-radius: 0;
     }
 
-    .mobile_controls {
+    .mobile-controls {
         display: flex
     }
 }
