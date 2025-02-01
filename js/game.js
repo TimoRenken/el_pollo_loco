@@ -5,9 +5,15 @@ let intervalIds = [];
 let sounds = [];
 isPaused = false;
 isMuted = false;
+backgroundMusic = new Audio('audio/backgroundMusic.mp3');
+backgroundMusic.loop = true;
+backgroundMusic.volume = 0.2;
+winSound = new Audio('audio/winSound.mp3');
+loseSound = new Audio('audio/loseSound.mp3');
+
 
 /**
- * This wrapper function is used to save the id from a interval.
+ * This wrapper function is used to save the id from an interval.
  * Id is the id of the interval.
  * @param {*} fn  // function to be called
  * @param {*} time // time interval
@@ -24,6 +30,17 @@ function startGame() {
     document.getElementById('game_infos').style.display = "none";
     initLevel();
     init();
+    backgroundMusic.play();
+
+}
+
+/**
+ *  Tis function pushes sounds to the sound array.
+ */
+function pushSounds() {
+    sounds.push(backgroundMusic);
+    sounds.push(winSound);
+    sounds.push(loseSound);
 }
 
 /**
@@ -31,7 +48,6 @@ function startGame() {
  */
 function stopGame() {
     intervalIds.forEach(clearInterval)
- 
 }
 
 /**
@@ -56,6 +72,7 @@ function pauseGame() {
  */
 function loseGame() {
     stopGame();
+    this.loseSound.play();
     document.getElementById('lose_screen').style.display = "flex";
 }
 
@@ -64,6 +81,7 @@ function loseGame() {
  */
 function winGame(){
     stopGame();
+    this.winSound.play();
     document.getElementById('win_screen').style.display = "flex";
 }
 
@@ -117,8 +135,9 @@ function checkMute(){
     }
 }
 
+
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
-
+    pushSounds();
 }
