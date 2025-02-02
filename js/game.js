@@ -12,6 +12,14 @@ winSound = new Audio('audio/winSound.mp3');
 loseSound = new Audio('audio/loseSound.mp3');
 
 
+
+function init() {
+    canvas = document.getElementById('canvas');
+    world = new World(canvas, keyboard);
+    pushSounds();
+}
+
+
 /**
  * This wrapper function is used to save the id from an interval.
  * Id is the id of the interval.
@@ -26,6 +34,10 @@ function setStoppableInterval(fn, time) {
     return id; // returns the intervals id. This is used to stop dead chickens from walking
 }
 
+
+/**
+ * This function is starting the game
+ */
 function startGame() {
     document.getElementById('start_screen').style.display = 'none';
     document.getElementById('game_infos').style.display = "none";
@@ -34,14 +46,6 @@ function startGame() {
     backgroundMusic.play();
 }
 
-/**
- *  This function pushes sounds to the sound array.
- */
-function pushSounds() {
-    sounds.push(backgroundMusic);
-    sounds.push(winSound);
-    sounds.push(loseSound);
-}
 
 /**
  * This function stops the game.
@@ -49,6 +53,7 @@ function pushSounds() {
 function stopGame() {
     intervalIds.forEach(clearInterval)
 }
+
 
 /**
  * This function pauses the game.
@@ -67,6 +72,7 @@ function pauseGame() {
     }
 }
 
+
 /**
  * this function is called when the character dies.
  */
@@ -76,6 +82,7 @@ function loseGame() {
     document.getElementById('lose_screen').style.display = "flex";
 }
 
+
 /**
  * this function is called when the character wins.
  */
@@ -84,6 +91,7 @@ function winGame(){
     this.winSound.play();
     document.getElementById('win_screen').style.display = "flex";
 }
+
 
 /**
  * This function restarts the game.
@@ -95,8 +103,19 @@ function newGame() {
     world.character.collectedBottles = 0; // Reset the number of collected bottlesd
     initLevel();   // Reinitialize the game
     init();
-    checkMute();
+    checkMute();// checks if the sound is muted.  
 }
+
+
+/**
+ *  This function pushes sounds to the sound array.
+ */
+function pushSounds() {
+    sounds.push(backgroundMusic);
+    sounds.push(winSound);
+    sounds.push(loseSound);
+}
+
 
 /**
  * This function toggles the sound.
@@ -116,13 +135,6 @@ function toggleMute() {
     }
 }
 
-function openGameInfos(){
-    document.getElementById('game_infos').style.display = "flex";
-}
-
-function  closeGameInfos(){
-    document.getElementById('game_infos').style.display = "none";
-}
 
 /**
  * This function checks if the game is muted.
@@ -136,8 +148,17 @@ function checkMute(){
 }
 
 
-function init() {
-    canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
-    pushSounds();
+/**
+ * This function shows the game infos.
+ */
+function openGameInfos(){
+    document.getElementById('game_infos').style.display = "flex";
+}
+
+
+/**
+ * This function closes the game infos.
+ */
+function  closeGameInfos(){
+    document.getElementById('game_infos').style.display = "none";
 }
