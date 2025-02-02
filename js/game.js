@@ -23,6 +23,7 @@ function setStoppableInterval(fn, time) {
         if (!isPaused) fn(); // Call function only if game is not paused
     }, time);
     intervalIds.push(id);
+    return id; // returns the intervals id. This is used to stop dead chickens from walking
 }
 
 function startGame() {
@@ -31,11 +32,10 @@ function startGame() {
     initLevel();
     init();
     backgroundMusic.play();
-
 }
 
 /**
- *  Tis function pushes sounds to the sound array.
+ *  This function pushes sounds to the sound array.
  */
 function pushSounds() {
     sounds.push(backgroundMusic);

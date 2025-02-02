@@ -181,6 +181,11 @@ h2 {
     filter: drop-shadow(5px 5px 5px #222);
 }
 
+h3{
+    color: rgb(255, 219, 0);
+    filter: drop-shadow(5px 5px 5px #222);
+}
+
 .imprint {
     font-family: Arial, Helvetica, sans-serif;
 
