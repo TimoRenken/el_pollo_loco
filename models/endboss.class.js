@@ -58,11 +58,10 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        this.x = 4000; // 4000
+        this.x = 4000;
         this.animate();
         this.applyGravity();
         this.pushSounds();
-
     }
 
     pushSounds(){
@@ -90,7 +89,7 @@ class Endboss extends MovableObject {
                     this.playAnimation(this.IMAGES_HURT);
                     this.hurt_sound.play();
                 } else if (this.isColliding(world.character, true)) { 
-                    this.playAnimation(this.IMAGES_ATTACK); // Performs attack when the character is within range
+                    this.playAnimation(this.IMAGES_ATTACK); // Performs attackanimation when the character is within range
                 } else {
                     this.bossMoves();
                 }

@@ -6,9 +6,10 @@ class Character extends MovableObject {
     collectedCoins = 0;
     collectedBottles = 0;
     world;
-    walking_sound = new Audio('audio/walking.mp3')
-    jumping_sound = new Audio('audio/jump.mp3')
-    hurt_sound = new Audio('audio/hurt.mp3')
+    walking_sound = new Audio('audio/walking.mp3');
+    jumping_sound = new Audio('audio/jump.mp3');
+    hurt_sound = new Audio('audio/hurt.mp3');
+    snore_sound = new Audio('audio/snoring.mp3');
     deadAnimationPlayed = false;
     hadFirstContact = false;
     hurtSoundPlayed = false;
@@ -97,11 +98,12 @@ class Character extends MovableObject {
        sounds.push(this.walking_sound);
        sounds.push(this.jumping_sound);
        sounds.push(this.hurt_sound);
+       sounds.push(this.snore_sound);
     }
 
     animate() {
         setStoppableInterval(() => {
-            if (!isPaused && !this.isDead()) {
+            if (!isPaused && !this.isDead()) { 
                 this.walking_sound.pause();
                 if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                     this.moveRight();
@@ -151,11 +153,13 @@ class Character extends MovableObject {
 
                 if (timeStanding >= 4000) { // change animation after 4 secounds
                     this.playAnimation(this.IMAGES_LONG_IDLE);
+                    this.snore_sound.play();
                 } else {
                     this.playAnimation(this.IMAGES_IDLE);
                 }
             } else {
                 this.lastStand = null; // resets lastStand when character is moving
+                this.snore_sound.pause();
             }
         }, 200)
     }
