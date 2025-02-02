@@ -153,16 +153,26 @@ class World {
     checkCollisionWithEnemy() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                if (this.character.isAboveGround() && this.character.speedY < 0) { // Checks if character is jumping on an enemy
+                if (this.isComingFromAbove()) {
                     this.killEnemy(enemy);
-                    this.character.speedY = 20;
+                    this.character.speedY = 20; // Character gets a little bounce
                 }
-                else if (!this.character.isHurt() && this.character.speedY <= 0) {   // Checks if enemy hits character who is on the ground and not hurt.
+                else if (this.isVulnerable()) {   // Checks if an enemy hits the character, who is on the ground and not hurt.
                     this.character.hit();
                     this.healthBar.setPercentage(this.character.HP);
                 }
             }
         });
+    }
+
+
+    isComingFromAbove(){
+        return this.character.isAboveGround() && this.character.speedY < 0;
+    }
+
+
+    isVulnerable(){
+        return !this.character.isHurt() && this.character.speedY <= 0;
     }
 
 
@@ -174,7 +184,7 @@ class World {
             this.throwableObjects.forEach((throwableObject) => {
                 if (throwableObject.isColliding(enemy) && !throwableObject.isBroken) {
                     throwableObject.isBroken = true; // Prevents multiple hits
-                    throwableObject.splash();
+                    throwableObject.splash(); // starts splashanimation 
                     this.broken_glas.play();
                     this.hitWithBottle(enemy);
                     setTimeout(() => {
@@ -195,7 +205,7 @@ class World {
         if (enemy instanceof Endboss) {
             this.endbossBar.setPercentage(enemy.HP); // reduce live from the endboss statusbar
         } else if (enemy.isDead()) {
-            this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1) // deletes the hitted enemy
+            this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1) // deletes the enemy
         }
     }
 
@@ -263,18 +273,31 @@ class World {
      */
     checkThrowObjects() {
         const currentThrowTime = new Date().getTime();
-        if (this.keyboard.D && this.character.collectedBottles > 0 && !this.isBottleActive() && currentThrowTime - this.lastThrowTime >= 1000) { // checks if the key D is pressed and the last throw time is more than 1 secound ago and there is no bottle flying
+        if (this.canThrowBottle(currentThrowTime)) {
             this.lastThrowTime = currentThrowTime; // sets the last throw time to the current time 
             let xOffset = 50;
             if (this.character.otherDirection) xOffset = -30; // sets the correct start point on the x axis when otherDirection is true.
-
-            let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 50);
-            this.throwableObjects.push(bottle);
-            this.character.collectedBottles--;
-            this.bottleBar.percentage -= 20; // sets percentage to choose the right image at the statusbar
-            this.bottleBar.setPercentage(this.character.collectedBottles); // reduces the amount of bottles in the status bar
-            this.throwing_sound.play();
+            this.throwBottle(xOffset);
         }
+    }
+
+
+    canThrowBottle(currentThrowTime) {// checks if the key D is pressed, the last throw time is more than 1 secound ago and there is no bottle flying
+        return this.keyboard.D && this.character.collectedBottles > 0 && !this.isBottleActive() && currentThrowTime - this.lastThrowTime >= 1000;
+    }
+
+    /**
+     * This function throws a bottle
+     * also it sets the correct imagepath for the statusbar
+     * @param {*} xOffset sets the correct start point on the x-axis 
+     */
+    throwBottle(xOffset) {
+        let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 50);
+        this.throwableObjects.push(bottle);
+        this.character.collectedBottles--;
+        this.bottleBar.percentage -= 20; // sets percentage to choose the right image at the statusbar
+        this.bottleBar.setPercentage(this.character.collectedBottles); // reduces the amount of bottles in the status bar
+        this.throwing_sound.play();
     }
 
 
@@ -314,10 +337,11 @@ class World {
         if (obj instanceof Coin) {
             this.collectCoin(obj);
         } else if (this.canCollectBottle(obj)) {
-           this.collectBottle(obj);
+            this.collectBottle(obj);
         }
     }
 
+    
     collectCoin(obj) {
         this.coin.collect_coin.play();
         this.character.collectedCoins++; // increase collectedCoins by 1 after collecting a coin
@@ -326,11 +350,13 @@ class World {
         this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(obj), 1) // Remove the coin from array
     }
 
-    canCollectBottle(obj){
+
+    canCollectBottle(obj) {
         return obj instanceof Bottle && this.character.collectedBottles < 5
     }
 
-    collectBottle(obj){
+
+    collectBottle(obj) {
         this.bottle.collect_bottle.play();
         this.character.collectedBottles++; // increase collectedBottles by 1 after collecting a bottle
         this.bottleBar.percentage += 20;
