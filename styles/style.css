@@ -17,7 +17,7 @@ body {
     font-family: 'kablammo', Arial, Helvetica, sans-serif;
 }
 
-footer{
+footer {
     position: absolute;
     display: flex;
     gap: 32px;
@@ -76,7 +76,7 @@ span {
     display: none;
 }
 
-.win-image{
+.win-image {
     overflow: hidden;
 }
 
@@ -104,6 +104,7 @@ span {
     gap: 32px;
     user-select: none;
 }
+
 .overlay-image {
     height: 100%;
     width: 100%;
@@ -147,7 +148,7 @@ span {
     z-index: 10;
 }
 
-.turn-device-text{
+.turn-device-text {
     font-size: 32px;
 }
 
@@ -162,43 +163,56 @@ span:hover {
     user-select: none;
 }
 
-.game-infos-content{
+.game-infos-content {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-table{
+table {
     border-spacing: 16px;
     color: rgb(255, 219, 0);
     filter: drop-shadow(5px 5px 5px #222);
     font-size: 24px;
 }
 
-h2{
+h2 {
     color: rgb(255, 219, 0);
     filter: drop-shadow(5px 5px 5px #222);
 }
 
-.imprint{
-    font-family: Arial, Helvetica, sans-serif;
-    
-}
-
-.privacy-policy{
+.imprint {
     font-family: Arial, Helvetica, sans-serif;
 
 }
 
-hr{
+.privacy-policy {
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+hr {
     border: 1px solid, #FFDB00;
 }
 
-.return{
+.return {
     font-size: 32px;
     color: rgb(255, 219, 0);
     text-decoration: none;
+}
 
+a {
+    text-decoration: none;
+}
+
+.link-home {
+    color: rgb(255, 219, 0);
+    filter: drop-shadow(5px 5px 5px #222);
+    font-size: 24px;
+}
+
+.link-home:hover {
+    transform: scale(1.1);
 }
 
 @media only screen and (max-width: 720px) {
@@ -208,34 +222,39 @@ hr{
 }
 
 @media only screen and (max-width: 650px) {
-    .turn-device{
-        display:flex
+    .turn-device {
+        display: flex
     }
-    .overlay{
-        display:none;
+
+    .overlay {
+        display: none;
     }
+
     #ingame_menu {
         display: none;
     }
-    canvas{
+
+    canvas {
         display: none;
     }
 }
 
 @media only screen and (max-width: 550px) {
-    h1{
+    h1 {
         font-size: 48px;
     }
-    .turn-device-text{
+
+    .turn-device-text {
         font-size: 24px;
     }
 }
 
-@media only screen and (max-width: 400px){
-    h1{
+@media only screen and (max-width: 400px) {
+    h1 {
         font-size: 32px;
     }
-    .turn-device-text{
+
+    .turn-device-text {
         font-size: 16px;
     }
 }
