@@ -1,30 +1,34 @@
 let level1;
+
 function initLevel() {
+    let enemies = [];
+    let collectableObjects = [];
+
+    // Add multiple Chickens
+    for (let i = 0; i < 20; i++) { 
+        enemies.push(new Chicken());
+    }
+
+    // Add multiple SmallChickens
+    for (let i = 0; i < 10; i++) {
+        enemies.push(new SmallChicken());
+    }
+
+    // Add Endboss
+    enemies.push(new Endboss());
+
+    // Add multiple Coins
+    for (let i = 0; i < 10; i++) {
+        collectableObjects.push(new Coin());
+    }
+
+    // Add multiple Bottles
+    for (let i = 0; i < 5; i++) {
+        collectableObjects.push(new Bottle());
+    }
 
     level1 = new Level(
-        [
-            new Chicken(),
-            new Chicken(),
-            new Chicken(),
-            new Chicken(),
-            new Chicken(),
-            new Chicken(),
-            new Chicken(),
-            new Chicken(),
-            new Chicken(),
-            new Chicken(),
-            new Chicken(),
-            new Chicken(),
-            new SmallChicken(),
-            new SmallChicken(),
-            new SmallChicken(),
-            new SmallChicken(),
-            new SmallChicken(),
-            new SmallChicken(),
-            new SmallChicken(),
-            new SmallChicken(),
-            new Endboss()
-        ],
+        enemies,
         [
             new Cloud('img/5_background/layers/4_clouds/1.png', 200),
             new Cloud('img/5_background/layers/4_clouds/1.png', 900),
@@ -65,24 +69,7 @@ function initLevel() {
             new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 719 * 5),
             new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 719 * 5),
             new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 719 * 5),
-
         ],
-        collectableObjects = [
-            new Coin(),
-            new Coin(),
-            new Coin(),
-            new Coin(),
-            new Coin(),
-            new Coin(),
-            new Coin(),
-            new Coin(),
-            new Coin(),
-            new Coin(),
-            new Bottle(),
-            new Bottle(),
-            new Bottle(),
-            new Bottle(),
-            new Bottle(),
-        ]
+        collectableObjects
     );
 }
