@@ -260,7 +260,7 @@ class World {
      * This function is used to check if its possible to throw a bottle.
      * it is just possible to throw one bottle at a time.
      * to prevent killing the endboss very fast with bottles, the last throw time is saved and the player has to wait 1 secound to throw a new bottle.
-     */ 
+     */
     checkThrowObjects() {
         const currentThrowTime = new Date().getTime();
         if (this.keyboard.D && this.character.collectedBottles > 0 && !this.isBottleActive() && currentThrowTime - this.lastThrowTime >= 1000) { // checks if the key D is pressed and the last throw time is more than 1 secound ago and there is no bottle flying
@@ -297,27 +297,6 @@ class World {
 
 
     /**
-     * This function is used to collect a bottle or coin an deleting it in level
-     * @param {*} obj 
-     */
-    collectItem(obj) {
-        if (obj instanceof Coin) {
-            this.coin.collect_coin.play();
-            this.character.collectedCoins++; // increase collectedCoins by 1 after collecting a coin
-            this.coinBar.percentage += 10;
-            this.coinBar.setPercentage(this.character.collectedCoins); // set imagepath by collectedCoins 
-            this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(obj), 1) // Remove the coin from array
-        } else if (obj instanceof Bottle && this.character.collectedBottles < 5) {
-            this.bottle.collect_bottle.play();
-            this.character.collectedBottles++; // increase collectedBottles by 1 after collecting a bottle
-            this.bottleBar.percentage += 20;
-            this.bottleBar.setPercentage(this.character.collectedBottles);
-            this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(obj), 1)
-        }
-    }
-
-    
-    /**
      * This function is used to spawn new bottles after all bottles are collected
      */
     spawnNewBottles() {
@@ -325,4 +304,39 @@ class World {
         const newBottles = positions.map(x => new Bottle(x, 350)); // create new bottles at fixed positions
         this.level.collectableObjects.push(...newBottles); // add new bottles to collectable objects
     }
+
+
+    /**
+     * This function is used to collect a bottle or coin an deleting it in level
+     * @param {*} obj 
+     */
+    collectItem(obj) {
+        if (obj instanceof Coin) {
+            this.collectCoin(obj);
+        } else if (this.canCollectBottle(obj)) {
+           this.collectBottle(obj);
+        }
+    }
+
+    collectCoin(obj) {
+        this.coin.collect_coin.play();
+        this.character.collectedCoins++; // increase collectedCoins by 1 after collecting a coin
+        this.coinBar.percentage += 10;
+        this.coinBar.setPercentage(this.character.collectedCoins); // set imagepath by collectedCoins 
+        this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(obj), 1) // Remove the coin from array
+    }
+
+    canCollectBottle(obj){
+        return obj instanceof Bottle && this.character.collectedBottles < 5
+    }
+
+    collectBottle(obj){
+        this.bottle.collect_bottle.play();
+        this.character.collectedBottles++; // increase collectedBottles by 1 after collecting a bottle
+        this.bottleBar.percentage += 20;
+        this.bottleBar.setPercentage(this.character.collectedBottles);
+        this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(obj), 1)
+    }
+
+
 }
