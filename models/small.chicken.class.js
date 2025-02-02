@@ -27,7 +27,7 @@ class SmallChicken extends MovableObject {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImage(this.IMAGE_DEAD);
-        this.x = 400 + Math.random() * 3600;
+        this.x = 400 + Math.random() * 3700;
         this.speed = 0.15 + Math.random() * 0.25;
         this.animate();
         sounds.push(this.chick_died_sound);
@@ -42,17 +42,21 @@ class SmallChicken extends MovableObject {
 
         setStoppableInterval(() => {
             if (!isPaused) {
-                if (this.isDead()) { // checks if HP is <= 0
-                    if (!this.soundPlayed) {
-                        this.chick_died_sound.play(); // Play sound only once
-                        this.soundPlayed = true; // Mark sound as played
-                    }
-                    this.loadImage(this.IMAGE_DEAD);
-                    clearInterval(move); // stops chicken walking
-                } else {
+                if (this.isDead())  // checks if HP is <= 0
+                    this.chickDied(move);
+                else
                     this.playAnimation(this.IMAGES_WALKING);
-                }
             }
         }, 200);
+    }
+
+    chickDied(move) {
+        if (!this.soundPlayed) {
+            this.chick_died_sound.play(); // Play sound only once
+            this.soundPlayed = true; // Mark sound as played
+        }
+
+        this.loadImage(this.IMAGE_DEAD);
+        clearInterval(move); // stops chicken walking
     }
 }

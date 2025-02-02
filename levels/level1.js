@@ -23,7 +23,7 @@ function initLevel() {
     }
 
     // Add multiple Bottles
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 8; i++) {
         collectableObjects.push(new Bottle());
     }
 

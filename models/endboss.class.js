@@ -74,7 +74,7 @@ class Endboss extends MovableObject {
 
         setStoppableInterval(() => {
             if(!isPaused) {
-            if (world.character.x > 3600 && !world.character.hadFirstContact) { // Checks if character is near the endboss
+            if (this.firstContact()) { 
                 world.character.hadFirstContact = true;
             }
 
@@ -98,9 +98,13 @@ class Endboss extends MovableObject {
         }, 225);
     }
 
+    firstContact(){
+        return world.character.x > 3600 && !world.character.hadFirstContact; // Checks if character is near the endboss
+    }
+
     bossMoves() {
         if (!this.isHurt() && !this.isDead()) {
-            if (world.character.x > this.x) { // Checks if chracter is on the right side
+            if (world.character.x > this.x) { // Checks if character is on the right side
                 this.otherDirection = true; // Endboss looks to the right
                 this.moveRight();
             } else {

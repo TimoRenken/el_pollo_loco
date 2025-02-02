@@ -94,79 +94,136 @@ class Character extends MovableObject {
         this.animate();
     }
 
-    pushSounds(){
-       sounds.push(this.walking_sound);
-       sounds.push(this.jumping_sound);
-       sounds.push(this.hurt_sound);
-       sounds.push(this.snore_sound);
+    /**
+     * This function pushes all sounds to the soundarray
+     */
+    pushSounds() {
+        sounds.push(this.walking_sound);
+        sounds.push(this.jumping_sound);
+        sounds.push(this.hurt_sound);
+        sounds.push(this.snore_sound);
     }
 
     animate() {
-        setStoppableInterval(() => {
-            if (!isPaused && !this.isDead()) { 
-                this.walking_sound.pause();
-                if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                    this.moveRight();
-                    this.otherDirection = false;
-                    if (!this.isAboveGround()) this.walking_sound.play(); // stops walkingsound while jumping
-                }
-                if (this.world.keyboard.LEFT && this.x > 0) {
-                    this.moveLeft();
-                    this.otherDirection = true;
-                    if (!this.isAboveGround()) this.walking_sound.play();  // stops walkingsound while jumping
-                }
-                if (this.world.keyboard.SPACE && !this.isAboveGround()) { // does not allow jumping while in the air.
-                    this.jump();
-                    this.jumping_sound.play();
-                }
-                let cameraOffset = Math.min(Math.max(-this.x + 200, -(4200 - this.world.canvas.width)), 0); // Calculate camera_x to center the character but limit it to 4200 px
-                this.world.camera_x = cameraOffset;
-            }
-        }, 1000 / 60);
+        setStoppableInterval(() => this.moveCharacter(), 1000 / 60);
 
-        setStoppableInterval(() => {
-            if (!isPaused) {
-                if (this.isDead() && !this.deadAnimationPlayed) {
-                    this.deadAnimation();
-                    setTimeout(() => loseGame(), 1000); 
-                } else if (this.isHurt()) {
-                    this.hurtAnimation();
-                }
-                else if (this.isAboveGround()) {
-                    this.playAnimation(this.IMAGES_JUMPING);
-                } else {
-                    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                        this.playAnimation(this.IMAGES_WALKING);
-                    }
-                }
-            }
-        }, 50);
+        setStoppableInterval(() => this.animateCharacter(), 50);
 
-        setStoppableInterval(() => {
-            let now = new Date().getTime(); // current time
-
-            if (this.isStanding()) {
-                if (!this.lastStand) { // if lastStand is not defined, null, undefined, 0, false, NaN or an empty string.
-                    this.lastStand = now;
-                }
-                let timeStanding = now - this.lastStand; // Calculate the time the character has been standing
-
-                if (timeStanding >= 4000) { // change animation after 4 secounds
-                    this.playAnimation(this.IMAGES_LONG_IDLE);
-                    this.snore_sound.play();
-                } else {
-                    this.playAnimation(this.IMAGES_IDLE);
-                }
-            } else {
-                this.lastStand = null; // resets lastStand when character is moving
-                this.snore_sound.pause();
-            }
-        }, 200)
+        setStoppableInterval(() => this.animateIdleCharacter(), 200)
     }
 
+    /**
+     * This function is used to move the character.
+     */
+    moveCharacter() {
+        if (!isPaused && !this.isDead()) {
+            this.walking_sound.pause();
+            if (this.canMoveRight())
+                this.moveRight();
+            if (this.canMoveLeft())
+                this.moveLeft();
+            if (this.canJump())
+                this.jump();
+
+            let cameraOffset = Math.min(Math.max(-this.x + 200, -(4200 - this.world.canvas.width)), 0); // Calculate camera_x to center the character but limit it to 4200 px
+            this.world.camera_x = cameraOffset;
+        }
+    }
+
+    canMoveRight() {
+        return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
+    }
+
+
+    moveRight() {
+        super.moveRight(); // super. used moveRight from moveableObjects
+        this.otherDirection = false;
+        if (!this.isAboveGround()) this.walking_sound.play(); // stops walkingsound while jumping
+    }
+
+
+    canMoveLeft() {
+        return this.world.keyboard.LEFT && this.x > 0;
+    }
+
+
+    moveLeft() {
+        super.moveLeft(); // super. used moveLeft from moveableObjects
+        this.otherDirection = true;
+        if (!this.isAboveGround()) this.walking_sound.play();  // stops walkingsound while jumping
+    }
+
+
+    canJump() {
+        return this.world.keyboard.SPACE && !this.isAboveGround(); // does not allow jumping while in the air.
+    }
+
+    jump() {
+        super.jump(); // super. used jump() from moveableObjects
+        this.jumping_sound.play();
+    }
+
+
+    /**
+     * This function is used to animate the character.
+     * When the character is dead, the game ends after 1 secound.
+     */
+    animateCharacter() {
+        if (!isPaused) {
+            if (this.isDead() && !this.deadAnimationPlayed) {
+                this.deadAnimation();
+                setTimeout(() => loseGame(), 1000); // game ends after 1 secound.
+            } else if (this.isHurt())
+                this.hurtAnimation();
+            else if (this.isAboveGround())
+                this.playAnimation(this.IMAGES_JUMPING);
+            else {
+                if (this.isWalking())
+                this.playAnimation(this.IMAGES_WALKING);
+            }
+        }
+    }
+
+
+    isWalking() {
+        return this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
+    }
+
+
+    /**
+     * This function animates an idle character
+     * 
+     */
+    animateIdleCharacter() {
+        let now = new Date().getTime(); // current time
+
+        if (this.isStanding()) {
+            if (!this.lastStand) { // if lastStand is not defined, null, undefined, 0, false, NaN or an empty string.
+                this.lastStand = now;
+            }
+            let timeStanding = now - this.lastStand; // Calculate the time the character has been standing
+
+            if (timeStanding >= 4000) { // change animation after 4 secounds
+                this.playAnimation(this.IMAGES_LONG_IDLE);
+                this.snore_sound.play();
+            } else {
+                this.playAnimation(this.IMAGES_IDLE);
+            }
+        } else {
+            this.lastStand = null; // resets lastStand when character is moving
+            this.snore_sound.pause();
+        }
+    }
+
+
+    /**
+     * 
+     * @returns if character is standing 
+     */
     isStanding() {
         return !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.world.keyboard.SPACE && !this.isAboveGround();
     }
+
 
     /**
      * this function is called when the character is hurt
@@ -183,6 +240,7 @@ class Character extends MovableObject {
         }
     }
 
+    
     /**
      * this function is called when the character is dead
      * it plays the dead animation and sets the deadAnimationPlayed flag to true

@@ -24,6 +24,7 @@ class ThrowableObject extends MovableObject {
         left: 15
     };
 
+    
     constructor(x, y) {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.IMAGES_BOTTLE_ROTATION);
@@ -35,41 +36,49 @@ class ThrowableObject extends MovableObject {
         this.throwDirection = world.character.otherDirection ? -1 : 1;  // Set flight direction based on character direction
         this.throw();
     }
-    
+
+
     /**
      * changes coordinates to animate a throwing bottle
      */
-        throw() {
+    throw() {
         this.speedY = 30;
         this.applyGravity();
         this.movementInterval = setInterval(() => {
-            if(!isPaused){  // Move only if the game is not paused
-            this.x += this.throwDirection * 8; 
+            if (!isPaused) {  // Move only if the game is not paused
+                this.x += this.throwDirection * 8;
             }
         }, 25);
         this.animate();
     }
 
+
+    /**
+     * This function animates a splashing bottle
+     * 
+     */
     splash() {
-        if(this.isSplashing) return; // Prevents multiple splash animations
-        this.isSplashing = true;        
+        if (this.isSplashing) return; // Prevents multiple splash animations
+        this.isSplashing = true;
 
         clearInterval(this.movementInterval); // Stops the X-axis movement
         clearInterval(this.rotationInterval); // Stops the rotation
-        
-        this.speedY = 0; 
+
+        this.speedY = 0;
         this.speed = 0;
         this.playAnimationOnce(this.IMAGES_BOTTLE_SPLASH);
     }
 
+
     animate() {
         this.rotationInterval = setInterval(() => {
-            if(!isPaused){  // Rotate only if the game is not paused
-            this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
+            if (!isPaused) {  // Rotate only if the game is not paused
+                this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
             }
         }, 75);
 
     }
+
 
     playAnimationOnce(images) {
         let i = 0;
@@ -81,5 +90,5 @@ class ThrowableObject extends MovableObject {
             }
         }, 125);
     }
-    
+
 }

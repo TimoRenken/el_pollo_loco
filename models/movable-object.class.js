@@ -23,14 +23,17 @@ class MovableObject extends DrawableObject {
         }, 1000 / 30);
     }
 
+
     /**
-    * Stops the gravity interval.
+    * Stops the gravity interval. 
+    * This is used while the game is paused
     */
     stopGravity() {
         if (this.gravityInterval) {
             clearInterval(this.gravityInterval);
         }
     }
+
 
     /**
      * This function checks whether the object is above the ground
@@ -51,6 +54,12 @@ class MovableObject extends DrawableObject {
     }
 
 
+    /**
+     * This function is used to check if there is a colliding between objects.
+     * @param {*} mo moveable Object
+     * @param {*} attackRange is true when the endboss is close to the character.
+     * @returns distences 
+     */
     isColliding(mo, attackRange = false) {
         let horizontalOverlap =
             this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
@@ -60,14 +69,17 @@ class MovableObject extends DrawableObject {
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
 
         if (attackRange) {
-            let distance = Math.abs(this.x - mo.x);
+            let distance = Math.abs(this.x - mo.x); // distance between boss and character
             return horizontalOverlap && distance < 250; // Attack within 250px range
         }
 
         return horizontalOverlap && verticalOverlap;
     }
 
-
+    /**
+     * This function is used to animate movement from objects.
+     * @param {*} images 
+     */
     playAnimation(images) {
         let i = this.currentImage % images.length; // let i = 7 % 6; => 1, rest 1
         let path = images[i];
@@ -75,18 +87,25 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
+
     moveRight() {
         this.x += this.speed;
     }
+
 
     moveLeft() {
         this.x -= this.speed;
     }
 
+
     jump() {
         this.speedY = 30;
     };
 
+
+    /**
+     * This function reduces the healthpoints of the character or an enemie.
+     */
     hit() {
         this.HP -= 20;
         if (this.HP < 0) {
@@ -96,11 +115,17 @@ class MovableObject extends DrawableObject {
         }
     }
 
+
+    /**
+     * 
+     * @returns if an object is already hurt and there is one secound passed
+     */
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit // difference in ms
         timepassed = timepassed / 1000; // Difference in s
         return timepassed < 1;
     }
+
 
     isDead() {
         return this.HP <= 0;

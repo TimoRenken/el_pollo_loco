@@ -27,14 +27,17 @@ class World {
         this.pushSounds();
     }
 
+
     pushSounds() {
         sounds.push(this.throwing_sound);
         sounds.push(this.broken_glas);
     }
 
+
     setWorld() {
         this.character.world = this;
     }
+
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -60,11 +63,13 @@ class World {
         });
     }
 
+
     addObjectsToMap(objects) {
         objects.forEach(obj => {
             this.addToMap(obj);
         });
     }
+
 
     /**
      *  This function is used to add objects to the map
@@ -81,6 +86,7 @@ class World {
         }
     }
 
+
     /**
      *  This function is used to flip the image of the object
      * @param {*} mo = MovableObject
@@ -92,6 +98,7 @@ class World {
         mo.x = mo.x * -1;
     }
 
+
     /**
      *  This function is used to flip the image back to the original direction
      * @param {*} mo 
@@ -100,6 +107,7 @@ class World {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
+
 
     /**
      * This function is used to add the statusbars to the game.
@@ -112,6 +120,7 @@ class World {
             this.addToMap(this.endbossBar);
         }
     }
+
 
     run() {
         setInterval(() => {
@@ -127,6 +136,7 @@ class World {
         }, 150)
     }
 
+
     /**
      * This function permanently checks if the is a collision in the game.
      */
@@ -135,6 +145,7 @@ class World {
         this.checkBottleCollisionWithEnemy();
         this.checkBottleCollisionWithGround();
     }
+
 
     /** 
      * This Function is used to check if the character is colliding with an enemy.
@@ -153,6 +164,7 @@ class World {
             }
         });
     }
+
 
     /**
      * This function checks if a bottle is colliding with an enemy
@@ -173,6 +185,7 @@ class World {
         });
     }
 
+
     /**
     * This function deals damage to an enemy which is hitten by a flying bottle.
     * @param {*} enemy this is the generated enemy.
@@ -185,6 +198,7 @@ class World {
             this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1) // deletes the hitted enemy
         }
     }
+
 
     /**
      * This function checks if a bottle is colliding with the ground and splashes the bottle.
@@ -201,6 +215,7 @@ class World {
         });
     }
 
+
     /**
      * 
      * @returns true if a bottle is still flying or splashing
@@ -210,6 +225,7 @@ class World {
             (bottle) => !bottle.isBroken || bottle.isSplashing
         );
     }
+
 
     /**
      * This function is used to remove a bottle from the throwableObjects array
@@ -221,6 +237,7 @@ class World {
             this.throwableObjects.splice(index, 1);
         }
     }
+
 
     /**
      * Deals damage to an enemy. 
@@ -260,6 +277,7 @@ class World {
         }
     }
 
+
     /**
     * This function checks if the character is colliding an object
     */
@@ -276,6 +294,7 @@ class World {
             this.spawnNewBottles();
         }
     }
+
 
     /**
      * This function is used to collect a bottle or coin an deleting it in level
@@ -297,6 +316,7 @@ class World {
         }
     }
 
+    
     /**
      * This function is used to spawn new bottles after all bottles are collected
      */
