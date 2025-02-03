@@ -320,7 +320,7 @@ class World {
 
 
     /**
-     * This function is used to spawn new bottles after all bottles are collected
+     * This function is used to spawn new bottles when all bottles are collected
      */
     spawnNewBottles() {
         const positions = [2700, 2900, 3100, 3300, 3500]; // fixed positions for new bottles

@@ -4,7 +4,7 @@ class Character extends MovableObject {
     y = 280;
     speed = 5;
     collectedCoins = 0;
-    collectedBottles = 10;
+    collectedBottles = 0;
     world;
     walking_sound = new Audio('audio/walking.mp3');
     jumping_sound = new Audio('audio/jump.mp3');
