@@ -20,7 +20,8 @@
     canvas {
         display: none;
     }
-    #game_infos{
+
+    #game_infos {
         display: none !important;
     }
 }
@@ -35,8 +36,8 @@
     }
 }
 
-@media only screen and (max-width: 450px){
-    .privacy-policy{
+@media only screen and (max-width: 450px) {
+    .privacy-policy {
         overflow: scroll !important;
     }
 }
@@ -75,14 +76,17 @@
         border-radius: 0;
     }
 
-    .mobile-controls {
-        display: flex
-    }
-
     footer {
         display: none;
     }
-    .privacy-policy{
+
+    .privacy-policy {
         overflow: scroll;
+    }
+}
+
+@media (pointer:coarse) {
+    .mobile-controls {
+        display: flex
     }
 }
