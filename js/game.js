@@ -12,11 +12,14 @@ winSound = new Audio('audio/winSound.mp3');
 loseSound = new Audio('audio/loseSound.mp3');
 
 
-
+/**
+ * This function initialized the game.
+ */
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     pushSounds();
+    checkLocalStorageMute();
 }
 
 
@@ -101,9 +104,8 @@ function newGame() {
     document.getElementById('lose_screen').style.display = "none";
     document.getElementById('win_screen').style.display = "none";
     world.character.collectedBottles = 0; // Reset the number of collected bottlesd
-    initLevel();   // Reinitialize the game
+    initLevel();  // Reinitialize the game
     init();
-    checkMute();// checks if the sound is muted.  
 }
 
 
@@ -118,7 +120,8 @@ function pushSounds() {
 
 
 /**
- * This function toggles the sound.
+ * This function toggles the sound and stores the value in the local storage
+ * also changes the source from the mute icon.
  */
 function toggleMute() {
     soundIcon = document.getElementById('toggle_sound');
@@ -127,23 +130,41 @@ function toggleMute() {
         soundIcon.innerHTML = "volume_off";
         sounds.forEach(sound => sound.muted = true);
         isMuted = true;
-
     } else {
         soundIcon.innerHTML = "volume_up";
         sounds.forEach(sound => sound.muted = false);
         isMuted = false;
     }
+    
+    localStorage.setItem('isMuted', isMuted);
+}
+
+
+/**
+ * This function checks the local storage if the game is muted
+ */
+function checkLocalStorageMute(){
+       // Mute-Status aus dem LocalStorage abrufen
+       let storedMute = localStorage.getItem('isMuted');
+       if (storedMute !== null) {
+           isMuted = storedMute === 'true'; // LocalStorage speichert Werte als Strings
+           checkAndSetMute(); // Wendet den Mute-Status an
+}
 }
 
 
 /**
  * This function checks if the game is muted.
  */
-function checkMute(){
+function checkAndSetMute(){
+    soundIcon = document.getElementById('toggle_sound');
+
     if(isMuted){
         sounds.forEach(sound => sound.muted = true);
+        soundIcon.innerHTML = "volume_off";
     } else {
         sounds.forEach(sound => sound.muted = false);
+        soundIcon.innerHTML = "volume_up";
     }
 }
 
