@@ -10,6 +10,10 @@ class Cloud extends MovableObject {
         this.animate();
     }
 
+
+    /**
+     * This function is used to animate a slow movement to the clouds
+     */
     animate() {
         setStoppableInterval(() => {
             if (!isPaused) {

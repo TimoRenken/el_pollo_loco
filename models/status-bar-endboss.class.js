@@ -20,17 +20,19 @@ class StatusBarEndboss extends DrawableObject {
         this.height = 50;
     }
 
-    // setPercentage(x)
-    setPercentage(percentage){ 
+
+    /**
+     * This function sets the imagepath by using the current percentage.
+     */
+    setPercentage(percentage) {
         this.percentage = percentage
-        let path = this.IMAGES[this.resolveImageIndex()]; // returns imagepath number "0-5" by percentage
+        let path = this.IMAGES[this.resolveImageIndex()]; // 
         this.img = this.imageCache[path];
     }
 
-/**
- * 
- * @returns number of array image index
- */
+    /**
+     * @returns imagepath number "0-5" by percentage
+     */
     resolveImageIndex() {
         if (this.percentage == 100) {
             return 5;

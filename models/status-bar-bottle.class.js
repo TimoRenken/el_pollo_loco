@@ -20,16 +20,19 @@ class StatusBarBottles extends DrawableObject {
         this.height = 50;
     }
 
-    // setPercentage(x)
-    setPercentage(){ 
-        let path = this.IMAGES[this.resolveImageIndex()]; // returns imagepath number "0-5"  by percentage
+
+
+    /**
+     * This function sets the imagepath by using the current percentage.
+     */
+    setPercentage() {
+        let path = this.IMAGES[this.resolveImageIndex()];
         this.img = this.imageCache[path];
     }
 
-/**
- * 
- * @returns number of array image index
- */
+    /**
+     * @returns imagepath number "0-5"  by percentage
+     */
     resolveImageIndex() {
         if (this.percentage == 100) {
             return 5;

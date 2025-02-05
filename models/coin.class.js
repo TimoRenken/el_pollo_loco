@@ -26,6 +26,10 @@ class Coin extends MovableObject {
         sounds.push(this.collect_coin);
     }
 
+
+    /**
+     * This function is used to animate the collectable coins.
+     */
     animate() {
         setStoppableInterval(() => {
             if (!isPaused) {

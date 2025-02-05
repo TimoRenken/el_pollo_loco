@@ -12,12 +12,12 @@ class MovableObject extends DrawableObject {
      */
     applyGravity() {
         this.gravityInterval = setStoppableInterval(() => {
-            if (!isPaused) { // Apply gravity only if the game is not paused
+            if (!isPaused) {
                 if (this.isAboveGround() || this.speedY > 0) {
                     this.y -= this.speedY;
                     this.speedY -= this.accerleration;
                 } else {
-                    this.speedY = 0; // Resets speedY after reaching the ground.
+                    this.speedY = 0;
                 }
             }
         }, 1000 / 30);
@@ -36,17 +36,19 @@ class MovableObject extends DrawableObject {
 
 
     /**
-     * This function checks whether the object is above the ground
+     * This function checks whether the object is above the ground.
+     * ThrowableObject should allways fall
+     * The Endboss is above the ground at 235px.
      * @returns true or false
      */
     isAboveGround() {
         if (this instanceof ThrowableObject) {
-            return true; // ThrowableObject should allways fall
+            return true;
         } else if (this instanceof Endboss) {
-            return this.y < 235; // The Endboss is above the ground at 235px.
+            return this.y < 235;
         } else {
             if (this.y >= 280) {
-                this.y = 280; // correction if character is below the ground.
+                this.y = 280;
                 return false;
             }
             return true;
@@ -69,42 +71,51 @@ class MovableObject extends DrawableObject {
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
 
         if (attackRange) {
-            let distance = Math.abs(this.x - mo.x); // distance between boss and character
-            return horizontalOverlap && distance < 250; // Attack within 250px range
+            let distance = Math.abs(this.x - mo.x);
+            return horizontalOverlap && distance < 250;
         }
 
         return horizontalOverlap && verticalOverlap;
     }
+
 
     /**
      * This function is used to animate movement from objects.
      * @param {*} images 
      */
     playAnimation(images) {
-        let i = this.currentImage % images.length; // let i = 7 % 6; => 1, rest 1
+        let i = this.currentImage % images.length;
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
     }
 
 
+    /**
+     * This function is used to move an object to the right.
+     */
     moveRight() {
         this.x += this.speed;
     }
 
-
+    /**
+     * This function is used to move an object to the left.
+     */
     moveLeft() {
         this.x -= this.speed;
     }
 
 
+    /**
+     * This function makes an object jump.
+     */
     jump() {
         this.speedY = 30;
     };
 
 
     /**
-     * This function reduces the healthpoints of the character or an enemie.
+     * This function reduces the healthpoints of the character or an enemy.
      */
     hit() {
         this.HP -= 20;
@@ -117,16 +128,18 @@ class MovableObject extends DrawableObject {
 
 
     /**
-     * 
      * @returns if an object is already hurt and there is one secound passed
      */
     isHurt() {
-        let timepassed = new Date().getTime() - this.lastHit // difference in ms
-        timepassed = timepassed / 1000; // Difference in s
+        let timepassed = new Date().getTime() - this.lastHit
+        timepassed = timepassed / 1000;
         return timepassed < 1;
     }
 
 
+    /**
+     * @returns is an object is dead.
+     */
     isDead() {
         return this.HP <= 0;
     }

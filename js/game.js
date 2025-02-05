@@ -89,7 +89,7 @@ function loseGame() {
 /**
  * this function is called when the character wins.
  */
-function winGame(){
+function winGame() {
     stopGame();
     this.winSound.play();
     document.getElementById('win_screen').style.display = "flex";
@@ -121,12 +121,12 @@ function pushSounds() {
 
 /**
  * This function toggles the sound and stores the value in the local storage
- * also changes the source from the mute icon.
+ * also changes the source from the sound icon.
  */
 function toggleMute() {
     soundIcon = document.getElementById('toggle_sound');
 
-    if(!isMuted) {
+    if (!isMuted) {
         soundIcon.innerHTML = "volume_off";
         sounds.forEach(sound => sound.muted = true);
         isMuted = true;
@@ -135,31 +135,31 @@ function toggleMute() {
         sounds.forEach(sound => sound.muted = false);
         isMuted = false;
     }
-    
+
     localStorage.setItem('isMuted', isMuted);
 }
 
 
 /**
- * This function checks the local storage if the game is muted
+ * This function checks if the game is muted by using the local storage.
  */
-function checkLocalStorageMute(){
-       // Mute-Status aus dem LocalStorage abrufen
-       let storedMute = localStorage.getItem('isMuted');
-       if (storedMute !== null) {
-           isMuted = storedMute === 'true'; // LocalStorage speichert Werte als Strings
-           checkAndSetMute(); // Wendet den Mute-Status an
-}
+function checkLocalStorageMute() {
+    let storedMute = localStorage.getItem('isMuted');
+    if (storedMute !== null) {
+        isMuted = storedMute === 'true';
+        checkAndSetMute();
+    }
 }
 
 
 /**
- * This function checks if the game is muted.
+ * This function adjusts the sound for a new game or a restart.
+ * also changes the soure from the sound icon
  */
-function checkAndSetMute(){
+function checkAndSetMute() {
     soundIcon = document.getElementById('toggle_sound');
 
-    if(isMuted){
+    if (isMuted) {
         sounds.forEach(sound => sound.muted = true);
         soundIcon.innerHTML = "volume_off";
     } else {
@@ -172,7 +172,7 @@ function checkAndSetMute(){
 /**
  * This function shows the game infos.
  */
-function openGameInfos(){
+function openGameInfos() {
     document.getElementById('game_infos').style.display = "flex";
 }
 
@@ -180,6 +180,14 @@ function openGameInfos(){
 /**
  * This function closes the game infos.
  */
-function  closeGameInfos(){
+function closeGameInfos() {
     document.getElementById('game_infos').style.display = "none";
 }
+
+
+/**
+ * this function is used to prevent from right clicking the screen.
+ */
+window.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+});

@@ -4,7 +4,7 @@ class Chicken extends MovableObject {
     width = 60;
     HP = 20;
     chickenDied_sound = new Audio('audio/chicken.mp3');
-    soundPlayed = false; // Flag to check if sound has been played
+    soundPlayed = false;
 
     offset = {
         top: 0,
@@ -23,6 +23,7 @@ class Chicken extends MovableObject {
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ]
 
+
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -33,6 +34,12 @@ class Chicken extends MovableObject {
         sounds.push(this.chickenDied_sound);
     }
 
+
+    /**
+     * This function is used to animate a chicken which is walking to the left.
+     * When the chicken died it calls the function chickenDied().
+     * 
+     */
     animate() {
         const move = setStoppableInterval(() => {
             if (!isPaused) {
@@ -42,7 +49,7 @@ class Chicken extends MovableObject {
 
         setStoppableInterval(() => {
             if (!isPaused) {
-                if (this.isDead())  // checks if HP is <= 0
+                if (this.isDead())
                     this.chickenDied(move);
                 else
                     this.playAnimation(this.IMAGES_WALKING);
@@ -50,15 +57,20 @@ class Chicken extends MovableObject {
         }, 150);
     }
 
+
+    /**
+     * This function is used to show a dead chicken.
+     * It plays a chicken sound and loads a new image.
+     * @param {*} move move is the interval that makes the chicken run to the left.
+     * The interval will be cleared when the chicken dies.
+     */
     chickenDied(move) {
         if (!this.soundPlayed) {
-            this.chickenDied_sound.play(); // Play sound only once
-            this.soundPlayed = true; // Mark sound as played
+            this.chickenDied_sound.play();
+            this.soundPlayed = true;
         }
-        
+
         this.loadImage(this.IMAGE_DEAD);
-        clearInterval(move); // stops chicken walking
+        clearInterval(move);
     }
-
-
 }

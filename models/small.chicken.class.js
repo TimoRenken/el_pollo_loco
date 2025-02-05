@@ -4,7 +4,7 @@ class SmallChicken extends MovableObject {
     width = 40;
     HP = 5;
     chick_died_sound = new Audio('audio/smallChicken.mp3');
-    soundPlayed = false; // Flag to check if sound has been played
+    soundPlayed = false; 
 
     offset = {
         top: 0,
@@ -33,6 +33,11 @@ class SmallChicken extends MovableObject {
         sounds.push(this.chick_died_sound);
     }
 
+
+    /**
+     * This function is used to animate a chick which is walking to the left.
+     * When the chick died it calls the function chickDied().
+     */
     animate() {
         const move = setStoppableInterval(() => {
             if (!isPaused) {
@@ -42,7 +47,7 @@ class SmallChicken extends MovableObject {
 
         setStoppableInterval(() => {
             if (!isPaused) {
-                if (this.isDead())  // checks if HP is <= 0
+                if (this.isDead())
                     this.chickDied(move);
                 else
                     this.playAnimation(this.IMAGES_WALKING);
@@ -50,13 +55,20 @@ class SmallChicken extends MovableObject {
         }, 200);
     }
 
+
+    /**
+     * This function is used to show a dead chick.
+     * It plays a chick sound and loads a new image.
+     * @param {*} move move is the interval that makes the chick run to the left.
+     * The interval will be cleared when the chick dies.
+     */
     chickDied(move) {
         if (!this.soundPlayed) {
-            this.chick_died_sound.play(); // Play sound only once
-            this.soundPlayed = true; // Mark sound as played
+            this.chick_died_sound.play(); 
+            this.soundPlayed = true; 
         }
 
         this.loadImage(this.IMAGE_DEAD);
-        clearInterval(move); // stops chicken walking
+        clearInterval(move); 
     }
 }

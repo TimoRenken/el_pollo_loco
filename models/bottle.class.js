@@ -25,6 +25,10 @@ class Bottle extends MovableObject {
         sounds.push(this.collect_bottle);
     }
 
+
+    /**
+     * This function animates the collectable bottles.
+     */
     animate() {
         setStoppableInterval(() => {
             if (!isPaused) {

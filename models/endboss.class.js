@@ -64,51 +64,70 @@ class Endboss extends MovableObject {
         this.pushSounds();
     }
 
-    pushSounds(){
-        sounds.push(this.hurt_sound);
-     }
- 
 
+    /**
+     * This function pushs the hurt sound to the sounds array.
+     * This is used to make it possible to mute all sounds.
+     */
+    pushSounds() {
+        sounds.push(this.hurt_sound);
+    }
+
+
+    /**
+     * This function is used to animate the endboss.
+     * The animation starts when the character is near enough.
+     * Is also calls the corresponding function when he is dead, alert, hurt, attacking or warlking
+     */
     animate() {
         let i = 0;
 
         setStoppableInterval(() => {
-            if(!isPaused) {
-            if (this.firstContact()) { 
-                world.character.hadFirstContact = true;
-            }
+            if (!isPaused) {
+                if (this.firstContact()) {
+                    world.character.hadFirstContact = true;
+                }
 
-            if (world.character.hadFirstContact) {
-                if (this.isDead()) {
-                    this.playAnimation(this.IMAGES_DEAD);
-                    setTimeout(() => winGame(), 1500); // win game when endboss is dead
-                } else if (i < 7) {
-                    this.playAnimation(this.IMAGES_ALERT); // Shows alert animation for the first 7 frames
-                    i++;
-                } else if (this.isHurt()) {
-                    this.playAnimation(this.IMAGES_HURT);
-                    this.hurt_sound.play();
-                } else if (this.isColliding(world.character, true)) { 
-                    this.playAnimation(this.IMAGES_ATTACK); // Performs attackanimation when the character is within range
-                } else {
-                    this.bossMoves();
+                if (world.character.hadFirstContact) {
+                    if (this.isDead()) {
+                        this.playAnimation(this.IMAGES_DEAD);
+                        setTimeout(() => winGame(), 1500);
+                    } else if (i < 7) {
+                        this.playAnimation(this.IMAGES_ALERT);
+                        i++;
+                    } else if (this.isHurt()) {
+                        this.playAnimation(this.IMAGES_HURT);
+                        this.hurt_sound.play();
+                    } else if (this.isColliding(world.character, true)) {
+                        this.playAnimation(this.IMAGES_ATTACK);
+                    } else {
+                        this.bossMoves();
+                    }
                 }
             }
-        }
         }, 225);
     }
 
-    firstContact(){
-        return world.character.x > 3600 && !world.character.hadFirstContact; // Checks if character is near the endboss
+
+    /**
+     * 
+     * @returns if the character is near to the endboss
+     */
+    firstContact() {
+        return world.character.x > 3600 && !world.character.hadFirstContact;
     }
 
+
+    /**
+     * This function lets the endboss run to the character.
+     */
     bossMoves() {
         if (!this.isHurt() && !this.isDead()) {
-            if (world.character.x > this.x) { // Checks if character is on the right side
-                this.otherDirection = true; // Endboss looks to the right
+            if (world.character.x > this.x) {
+                this.otherDirection = true;
                 this.moveRight();
             } else {
-                this.otherDirection = false; // Endboss looks to the left
+                this.otherDirection = false;
                 this.moveLeft();
             }
             this.playAnimation(this.IMAGES_WALKING);
@@ -116,6 +135,6 @@ class Endboss extends MovableObject {
     }
 
 
-    
+
 }
 

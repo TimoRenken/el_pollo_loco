@@ -11,10 +11,15 @@ class Keyboard {
         this.buttonTouchEndEvent();
     }
 
-    buttonTouchStartEvent() {
-        window.addEventListener('touchstart', (event) => { // when the user touches the screen
 
-            if (event.target.id == 'btn_right') {  // if the id of the target is equal to the id of the button right      
+    /**
+     * This function is needed to make it possible to play on a touch device.
+     * when the user touches the screen the event checks if the id of the target is equal to the id of the buttons id.
+     */
+    buttonTouchStartEvent() {
+        window.addEventListener('touchstart', (event) => {
+
+            if (event.target.id == 'btn_right') {
                 keyboard.RIGHT = true;
             }
             if (event.target.id == 'btn_left') {
@@ -29,10 +34,14 @@ class Keyboard {
         });
     }
 
-    buttonTouchEndEvent() {
-        window.addEventListener('touchend', (event) => { // when the user stops touching the screen
 
-            if (event.target.id == 'btn_right') { // if the id of the target is equal to the id of the button right 
+    /**
+     * This function ends the interaction with the touch device.
+     */
+    buttonTouchEndEvent() {
+        window.addEventListener('touchend', (event) => {
+
+            if (event.target.id == 'btn_right') {
                 keyboard.RIGHT = false;
             }
             if (event.target.id == 'btn_left') {
@@ -48,6 +57,10 @@ class Keyboard {
     }
 }
 
+
+/**
+ * This EventListener checks if a key is pressed
+ */
 window.addEventListener('keydown', (event) => {
 
     if (event.keyCode == 39) {
@@ -55,9 +68,6 @@ window.addEventListener('keydown', (event) => {
     }
     if (event.keyCode == 37) {
         keyboard.LEFT = true;
-    }
-    if (event.keyCode == 38) {
-        keyboard.UP = true;
     }
     if (event.keyCode == 40) {
         keyboard.DOWN = true;
@@ -70,15 +80,16 @@ window.addEventListener('keydown', (event) => {
     }
 })
 
+
+/**
+ * This EventListener checks if a key is no longer pressed.
+ */
 window.addEventListener('keyup', (event) => {
     if (event.keyCode == 39) {
         keyboard.RIGHT = false;
     }
     if (event.keyCode == 37) {
         keyboard.LEFT = false;
-    }
-    if (event.keyCode == 38) {
-        keyboard.UP = false;
     }
     if (event.keyCode == 40) {
         keyboard.DOWN = false;

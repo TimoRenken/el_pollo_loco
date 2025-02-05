@@ -28,17 +28,26 @@ class World {
     }
 
 
+    /**
+    * This function pushes all sounds to the soundarray.
+    * This is used to make it possible to mute all sounds.
+    */
     pushSounds() {
         sounds.push(this.throwing_sound);
         sounds.push(this.broken_glas);
     }
 
-
+    /**
+     * This function transfers the world object to the character object.
+     * This is used to make it possible to use the keyboard.
+     */
     setWorld() {
         this.character.world = this;
     }
 
-
+    /**
+     * This function is used to draw all objects on the canvas.
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
@@ -46,17 +55,17 @@ class World {
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
 
-        // Space for fixed Objects
-        this.ctx.translate(-this.camera_x, 0); // Backward
+
+        this.ctx.translate(-this.camera_x, 0);
         this.addStatusBars();
-        this.ctx.translate(this.camera_x, 0); // Forward
+        this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects)
         this.addObjectsToMap(this.level.collectableObjects);
         this.ctx.translate(-this.camera_x, 0);
 
-        // repeats draw()
+
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -64,6 +73,10 @@ class World {
     }
 
 
+    /**
+     * This function is used to add several objects to the canvas.
+     * @param {*} objects 
+     */
     addObjectsToMap(objects) {
         objects.forEach(obj => {
             this.addToMap(obj);
@@ -72,7 +85,7 @@ class World {
 
 
     /**
-     *  This function is used to add objects to the map
+     *  This function is used to add an objects to the canvas.
      * @param {*} mo 
      */
     addToMap(mo) {
@@ -80,7 +93,6 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        // mo.drawFrame(this.ctx);  //     draws a reactangle for collision
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
@@ -88,7 +100,7 @@ class World {
 
 
     /**
-     *  This function is used to flip the image of the object
+     *  This function is used to flip the image of the object.
      * @param {*} mo = MovableObject
      */
     flipImage(mo) {
@@ -100,7 +112,7 @@ class World {
 
 
     /**
-     *  This function is used to flip the image back to the original direction
+     *  This function is used to flip the image back to the original direction.
      * @param {*} mo 
      */
     flipImageBack(mo) {
@@ -111,17 +123,21 @@ class World {
 
     /**
      * This function is used to add the statusbars to the game.
+     * Shows the endboss statusbar after first contact with the endboss.
      */
     addStatusBars() {
         this.addToMap(this.healthBar);
         this.addToMap(this.coinBar);
         this.addToMap(this.bottleBar);
-        if (this.character.hadFirstContact) {   // Shows the endboss statusbar after first contact with the endboss
+        if (this.character.hadFirstContact) {
             this.addToMap(this.endbossBar);
         }
     }
 
 
+    /**
+     * This function starts the collision detection and if its possible to throw a bottle.
+     */
     run() {
         setInterval(() => {
             if (!isPaused) {
@@ -155,9 +171,9 @@ class World {
             if (this.character.isColliding(enemy)) {
                 if (this.isComingFromAbove()) {
                     this.killEnemy(enemy);
-                    this.character.speedY = 20; // Character gets a little bounce
+                    this.character.speedY = 20;
                 }
-                else if (this.isVulnerable()) {   // Checks if an enemy hits the character, who is on the ground and not hurt.
+                else if (this.isVulnerable()) {
                     this.character.hit();
                     this.healthBar.setPercentage(this.character.HP);
                 }
@@ -166,12 +182,20 @@ class World {
     }
 
 
-    isComingFromAbove(){
+    /**
+     * 
+     * @returns if the character is jumping on a enemy.
+     */
+    isComingFromAbove() {
         return this.character.isAboveGround() && this.character.speedY < 0;
     }
 
 
-    isVulnerable(){
+    /**
+     * 
+     * @returns if an enemy hits the character, who is on the ground and not hurt.
+     */
+    isVulnerable() {
         return !this.character.isHurt() && this.character.speedY <= 0;
     }
 
@@ -183,12 +207,12 @@ class World {
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((throwableObject) => {
                 if (throwableObject.isColliding(enemy) && !throwableObject.isBroken) {
-                    throwableObject.isBroken = true; // Prevents multiple hits
-                    throwableObject.splash(); // starts splashanimation 
+                    throwableObject.isBroken = true;
+                    throwableObject.splash();
                     this.broken_glas.play();
                     this.hitWithBottle(enemy);
                     setTimeout(() => {
-                        this.removeBottle(throwableObject); // Removes the bottle after the hit
+                        this.removeBottle(throwableObject);
                     }, 300)
                 }
             });
@@ -201,11 +225,11 @@ class World {
     * @param {*} enemy this is the generated enemy.
     */
     hitWithBottle(enemy) {
-        enemy.hit() // reduce enemies live by 20 HP per hit.
+        enemy.hit()
         if (enemy instanceof Endboss) {
-            this.endbossBar.setPercentage(enemy.HP); // reduce live from the endboss statusbar
+            this.endbossBar.setPercentage(enemy.HP);
         } else if (enemy.isDead()) {
-            this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1) // deletes the enemy
+            this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1);
         }
     }
 
@@ -215,11 +239,11 @@ class World {
      */
     checkBottleCollisionWithGround() {
         this.throwableObjects.forEach((throwableObject) => {
-            if (throwableObject.y > 360 && !throwableObject.isSplashing) { // Checks if bottle hits on the ground
+            if (throwableObject.y > 360 && !throwableObject.isSplashing) {
                 throwableObject.splash();
                 this.broken_glas.play();
                 setTimeout(() => {
-                    this.removeBottle(throwableObject);  // Removes the bottle after the hit       
+                    this.removeBottle(throwableObject);
                 }, 300)
             }
         });
@@ -255,13 +279,13 @@ class World {
      * @param {*} enemy this is the generated enemy.
      */
     killEnemy(enemy) {
-        enemy.hit() // reduce enemies live by 20 HP per hit.
-        if (enemy instanceof Chicken || enemy instanceof SmallChicken) { // used for a short killanimation
+        enemy.hit()
+        if (enemy instanceof Chicken || enemy instanceof SmallChicken) {
             setTimeout(() => {
                 this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1)
             }, 400)
         } else {
-            this.endbossBar.setPercentage(enemy.HP); // reduce live from the endboss statusbar
+            this.endbossBar.setPercentage(enemy.HP);
         }
     }
 
@@ -274,17 +298,21 @@ class World {
     checkThrowObjects() {
         const currentThrowTime = new Date().getTime();
         if (this.canThrowBottle(currentThrowTime)) {
-            this.lastThrowTime = currentThrowTime; // sets the last throw time to the current time 
+            this.lastThrowTime = currentThrowTime;
             let xOffset = 50;
-            if (this.character.otherDirection) xOffset = -30; // sets the correct start point on the x axis when otherDirection is true.
+            if (this.character.otherDirection) xOffset = -30;
             this.throwBottle(xOffset);
         }
     }
 
-
-    canThrowBottle(currentThrowTime) {// checks if the key D is pressed, the last throw time is more than 1 secound ago and there is no bottle flying
+    /**
+     * @param {*} currentThrowTime 
+     * @returns if the key D is pressed, the last throw time is more than 1 secound ago and there is no bottle flying
+     */
+    canThrowBottle(currentThrowTime) {
         return this.keyboard.D && this.character.collectedBottles > 0 && !this.isBottleActive() && currentThrowTime - this.lastThrowTime >= 1000;
     }
+
 
     /**
      * This function throws a bottle
@@ -295,14 +323,15 @@ class World {
         let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 50);
         this.throwableObjects.push(bottle);
         this.character.collectedBottles--;
-        this.bottleBar.percentage -= 20; // sets percentage to choose the right image at the statusbar
-        this.bottleBar.setPercentage(this.character.collectedBottles); // reduces the amount of bottles in the status bar
+        this.bottleBar.percentage -= 20;
+        this.bottleBar.setPercentage(this.character.collectedBottles);
         this.throwing_sound.play();
     }
 
 
     /**
-    * This function checks if the character is colliding an object
+    * This function checks if the character is colliding an object.
+    * Also checks if all bottles are collected and spawn new bottles after first contact with the endboss
     */
     checkCollection() {
         this.level.collectableObjects.forEach((obj) => {
@@ -311,7 +340,6 @@ class World {
             }
         });
 
-        // checks if all bottles are collected and spawn new bottles after first contact with the endboss
         const remainingBottles = this.level.collectableObjects.filter(obj => obj instanceof Bottle);
         if (remainingBottles.length === 0 && this.character.hadFirstContact) {
             this.spawnNewBottles();
@@ -321,16 +349,17 @@ class World {
 
     /**
      * This function is used to spawn new bottles when all bottles are collected
+     * (add new bottles to collectable objects)
      */
     spawnNewBottles() {
-        const positions = [2700, 2900, 3100, 3300, 3500]; // fixed positions for new bottles
-        const newBottles = positions.map(x => new Bottle(x, 350)); // create new bottles at fixed positions
-        this.level.collectableObjects.push(...newBottles); // add new bottles to collectable objects
+        const positions = [2700, 2900, 3100, 3300, 3500];
+        const newBottles = positions.map(x => new Bottle(x, 350));
+        this.level.collectableObjects.push(...newBottles);
     }
 
 
     /**
-     * This function is used to collect a bottle or coin an deleting it in level
+     * This function is used to collect a bottle or coin.
      * @param {*} obj 
      */
     collectItem(obj) {
@@ -341,24 +370,38 @@ class World {
         }
     }
 
-    
+
+    /**
+     * This function plays a coin sound, and set a new imagepath for the coin statusbar.
+     * Also remove the coin from the game.
+     * @param {*} obj object
+     */
     collectCoin(obj) {
         this.coin.collect_coin.play();
-        this.character.collectedCoins++; // increase collectedCoins by 1 after collecting a coin
+        this.character.collectedCoins++;
         this.coinBar.percentage += 10;
-        this.coinBar.setPercentage(this.character.collectedCoins); // set imagepath by collectedCoins 
-        this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(obj), 1) // Remove the coin from array
+        this.coinBar.setPercentage(this.character.collectedCoins);
+        this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(obj), 1);
     }
 
-
+    /**
+     * 
+     * @param {*} obj object
+     * @returns is its possible to pick up a bottle.
+     */
     canCollectBottle(obj) {
         return obj instanceof Bottle && this.character.collectedBottles < 5
     }
 
 
+    /**
+     * This function plays a bottle collect sound and set a new imagepath for the bottle statusbar.
+     * Also remove the bottle from the game.
+     * @param {*} obj object 
+     */
     collectBottle(obj) {
         this.bottle.collect_bottle.play();
-        this.character.collectedBottles++; // increase collectedBottles by 1 after collecting a bottle
+        this.character.collectedBottles++;
         this.bottleBar.percentage += 20;
         this.bottleBar.setPercentage(this.character.collectedBottles);
         this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(obj), 1)
