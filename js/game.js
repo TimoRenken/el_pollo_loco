@@ -31,10 +31,10 @@ function init() {
  */
 function setStoppableInterval(fn, time) {
     let id = setInterval(() => {
-        if (!isPaused) fn(); // Call function only if game is not paused
+        if (!isPaused) fn(); 
     }, time);
     intervalIds.push(id);
-    return id; // returns the intervals id. This is used to stop dead chickens from walking
+    return id; 
 }
 
 
@@ -67,11 +67,11 @@ function pauseGame() {
     if (isPaused) {
         isPaused = false;
         pauseIcon.innerHTML = "pause";
-        world.character.applyGravity(); // Resume gravity
+        world.character.applyGravity(); 
     } else {
         isPaused = true;
         pauseIcon.innerHTML = "play_arrow";
-        world.character.stopGravity(); // Stop gravity
+        world.character.stopGravity(); 
     }
 }
 
@@ -103,8 +103,8 @@ function newGame() {
     stopGame();    // // Stop all intervals
     document.getElementById('lose_screen').style.display = "none";
     document.getElementById('win_screen').style.display = "none";
-    world.character.collectedBottles = 0; // Reset the number of collected bottlesd
-    initLevel();  // Reinitialize the game
+    world.character.collectedBottles = 0; 
+    initLevel(); 
     init();
 }
 
